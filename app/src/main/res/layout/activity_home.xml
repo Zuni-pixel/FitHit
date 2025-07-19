@@ -115,69 +115,62 @@
         android:id="@+id/workoutCategories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Workout Categories"
-        android:textSize="18sp"
         android:layout_below="@id/workoutDescription"
-        android:layout_marginTop="25dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="sans-serif"
+        android:text="Other Features "
         android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/seeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="See All"
-        android:textSize="18sp"
         android:layout_alignBaseline="@id/workoutCategories"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif"
+        android:text="Select one "
         android:textColor="@android:color/holo_orange_dark"
-        android:fontFamily="sans-serif" />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/categoryButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/workoutCategories"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnBeginner"
+            android:id="@+id/btnrecommendation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:fontFamily="sans-serif"
-            android:text="Beginner"
+            android:text="GEt Recommendation "
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/btnIntermediate"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnPosture"
+            android:layout_width="184dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+
+            android:layout_marginEnd="2dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:fontFamily="sans-serif"
-            android:text="Intermediate"
+            android:text="Get Posture Correct "
             android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/btnAdvanced"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:fontFamily="sans-serif"
-            android:text="Advanced"
-            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/bottomImage"
-        android:layout_width="372dp"
-        android:layout_height="156dp"
+        android:layout_width="330dp"
+        android:layout_height="126dp"
         android:layout_below="@id/categoryButtons"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
@@ -186,26 +179,25 @@
         android:scaleType="centerCrop"
         android:src="@drawable/sample_image2" />
 
-    <TextView
-        android:id="@+id/startFromBasic"
+    <!-- Modified Health Dashboard Button -->
+    <Button
+        android:id="@+id/btnHealth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start  from  Basics "
-        android:textSize="22sp"
         android:layout_below="@id/bottomImage"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
-
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:fontFamily="sans-serif"
+        android:text="Health Dashboard"
+        android:textColor="@android:color/white" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation_menu"
+        android:layout_marginBottom="-1dp"
+        android:background="#E4E2E2"
         app:itemIconTint="@color/nav_item_color"
-        android:background="#E4E2E2" />
+        app:menu="@menu/bottom_navigation_menu" />
 </RelativeLayout>

@@ -13,8 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +30,16 @@ public class SignupActivity extends AppCompatActivity {
     private TextView loginText;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Database
         mAuth = FirebaseAuth.getInstance();
+        usersRef = FirebaseDatabase.getInstance().getReference("Users"); // Pointing to your existing Users table
 
         // Initialize views
         usernameField = findViewById(R.id.usernameField);
@@ -69,55 +74,99 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
 
-        // Create Firebase User
+        if (password.length() < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check if username already exists
+        checkUsernameAvailability(username, available -> {
+            if (available) {
+                proceedWithSignup(username, email, password);
+            } else {
+                Toast.makeText(SignupActivity.this,
+                        "Username already taken. Please choose another one.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void proceedWithSignup(String username, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            // Set Display Name
+                            // Set Display Name in Firebase Auth
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(username)
                                     .build();
+
                             user.updateProfile(profileUpdates)
                                     .addOnCompleteListener(profileTask -> {
                                         if (profileTask.isSuccessful()) {
-                                            // Save data in Realtime Database
-                                            saveUserData(user.getUid(), email, username, user);
+                                            // Save user data in existing Users table
+                                            saveUserData(user.getUid(), username, email);
                                         } else {
-                                            Toast.makeText(SignupActivity.this, "Failed to update profile.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignupActivity.this,
+                                                    "Failed to update profile: " + profileTask.getException().getMessage(),
+                                                    Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                     } else {
-                        Toast.makeText(SignupActivity.this, "Signup failed: " + task.getException().getMessage(),
+                        Toast.makeText(SignupActivity.this,
+                                "Signup failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void saveUserData(String uid, String email, String username, FirebaseUser user) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(uid);
+    private void checkUsernameAvailability(String username, UsernameCheckCallback callback) {
+        usersRef.orderByChild("username").equalTo(username)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        callback.onResult(!dataSnapshot.exists());
+                    }
 
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("email", email);
-        userData.put("username", username);
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(SignupActivity.this,
+                                "Error checking username availability",
+                                Toast.LENGTH_SHORT).show();
+                        callback.onResult(false);
+                    }
+                });
+    }
 
-        userRef.setValue(userData)
+    private void saveUserData(String uid, String username, String email) {
+        // Create user data map - add only new fields to avoid overwriting existing ones
+        Map<String, Object> userUpdates = new HashMap<>();
+        userUpdates.put("username", username);
+        userUpdates.put("email", email);
+
+        // Update the existing Users table without overwriting other fields
+        usersRef.child(uid).updateChildren(userUpdates)
                 .addOnSuccessListener(aVoid -> {
-                    // Send email verification after saving
-                    sendEmailVerification(user);
+                    // Send email verification after successful data save
+                    sendEmailVerification(mAuth.getCurrentUser());
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(SignupActivity.this, "Failed to save user data.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this,
+                            "Failed to save user data: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 });
     }
 
     private void sendEmailVerification(FirebaseUser user) {
+        if (user == null) return;
+
         user.sendEmailVerification()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(SignupActivity.this, "Verification email sent! Please verify before logging in.",
+                        Toast.makeText(SignupActivity.this,
+                                "Verification email sent to " + user.getEmail() + ". Please verify before logging in.",
                                 Toast.LENGTH_LONG).show();
                         mAuth.signOut(); // Sign out after sending verification
 
@@ -126,9 +175,14 @@ public class SignupActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(SignupActivity.this, "Failed to send verification email.",
+                        Toast.makeText(SignupActivity.this,
+                                "Failed to send verification email: " + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    interface UsernameCheckCallback {
+        void onResult(boolean available);
     }
 }

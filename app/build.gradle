@@ -8,6 +8,12 @@ android {
     namespace 'com.example.fithit'
     compileSdk 35
     android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+    android {
         aaptOptions {
             noCompress "tflite"
         }
@@ -16,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.fithit"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -34,6 +40,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        mlModelBinding true
+    }
 }
 
 dependencies {
@@ -44,6 +53,7 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.firebase.auth
     implementation libs.firebase.database
+    implementation libs.tensorflow.lite.metadata
     testImplementation libs.junit
 
 
@@ -53,6 +63,8 @@ dependencies {
         implementation 'org.tensorflow:tensorflow-lite-support:0.4.3'
         // workmnager dependency
         implementation "androidx.work:work-runtime-ktx:2.7.1"
+        implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
 }

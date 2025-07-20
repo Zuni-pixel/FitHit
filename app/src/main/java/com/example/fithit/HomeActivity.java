@@ -2,7 +2,6 @@ package com.example.fithit;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,9 +16,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,19 +23,13 @@ import java.util.Date;
 public class HomeActivity extends AppCompatActivity {
 
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
-    private TextView greeting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        setupNotifications();
-        initUI();
-        setupNavigation();
-    }
-
-    private void setupNotifications() {
+        //  Request Notification Permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -51,91 +41,74 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
+        //  Create Notification Channel
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     "fitness_channel",
                     "Fitness Notifications",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
+            channel.setDescription("Notifications for workout reminders");
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
+
+        //  Schedule the 4 daily notifications (8 AM, 12 PM, 4 PM, 8 PM)
         NotificationScheduler.scheduleNotifications(this);
-    }
 
-    private void initUI() {
-        greeting = findViewById(R.id.greeting1);
+        // === Original UI setup ===
+        TextView greeting = findViewById(R.id.greeting1);
+        TextView workoutDescription = findViewById(R.id.workoutDescription);
+        ImageView workoutImage = findViewById(R.id.middleImage);
         TextView dateText = findViewById(R.id.dateText);
-        dateText.setText(new SimpleDateFormat("dd MMMM yyyy").format(new Date()));
+        ImageView bellIcon = findViewById(R.id.bellIcon);
 
-        // User data loading
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance()
-                    .getReference("Users")
-                    .child(user.getUid());
-            userRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    String name = snapshot.getValue(String.class);
-                    greeting.setText(name != null ? name : "Welcome");
-                }
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    greeting.setText("Welcome");
-                }
-            });
-        } else {
-            greeting.setText("Welcome");
-        }
+        Button btnBeginner = findViewById(R.id.btnBeginner);
+        Button btnIntermediate = findViewById(R.id.btnIntermediate);
+        Button btnAdvanced = findViewById(R.id.btnAdvanced);
 
-        // Buttons
-        findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
-            } else {
-                startActivity(new Intent(this, RecommendationActivity.class));
-            }
-        });
+        String userName = "Arnold Schwarzenegger";
+        greeting.setText(userName);
 
-        findViewById(R.id.btnPosture).setOnClickListener(v ->
-                Toast.makeText(this, "Posture Correct selected!", Toast.LENGTH_SHORT).show());
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+        dateText.setText(dateFormat.format(currentDate));
+        workoutDescription.setText("Day 1 - Cardio");
+        workoutImage.setImageResource(R.drawable.sample_image);
 
-        findViewById(R.id.bellIcon).setOnClickListener(v ->
-                Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show());
+        btnBeginner.setOnClickListener(v ->
+                Toast.makeText(HomeActivity.this, "Beginner level selected!", Toast.LENGTH_SHORT).show()
+        );
 
-        // Health Dashboard Button
-        findViewById(R.id.btnHealth).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
-            } else {
-                startActivity(new Intent(this, HealthDashboardActivity.class));
-            }
-        });
-    }
+        btnIntermediate.setOnClickListener(v ->
+                Toast.makeText(HomeActivity.this, "Intermediate level selected!", Toast.LENGTH_SHORT).show()
+        );
 
-    private void setupNavigation() {
-        BottomNavigationView navView = findViewById(R.id.bottom_navigation);
-        navView.setOnNavigationItemSelectedListener(item -> {
+        btnAdvanced.setOnClickListener(v ->
+                Toast.makeText(HomeActivity.this, "Advanced level selected!", Toast.LENGTH_SHORT).show()
+        );
+
+        bellIcon.setOnClickListener(v ->
+                Toast.makeText(HomeActivity.this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
+        );
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
-
             if (itemId == R.id.navigation_home) {
-                return true; // Already home
-            }
-            else if (itemId == R.id.navigation_workouts) {
-                startActivity(new Intent(this, RecommendationActivity.class));
+                Toast.makeText(HomeActivity.this, "Home selected", Toast.LENGTH_SHORT).show();
                 return true;
-            }
-            else if (itemId == R.id.navigation_gamification) {
-                startActivity(new Intent(this, HealthDashboardActivity.class));
+            } else if (itemId == R.id.navigation_workouts) {
+                Toast.makeText(HomeActivity.this, "Workouts selected", Toast.LENGTH_SHORT).show();
                 return true;
-            }
-            else if (itemId == R.id.navigation_settings || itemId == R.id.navigation_person) {
-                Toast.makeText(this, "Feature coming soon", Toast.LENGTH_SHORT).show();
+            } else if (itemId == R.id.navigation_settings) {
+                Toast.makeText(HomeActivity.this, "Settings selected", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (itemId == R.id.navigation_gamification) {
+                Toast.makeText(HomeActivity.this, "Gamification selected", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (itemId == R.id.navigation_person) {
+                Toast.makeText(HomeActivity.this, "Profile selected", Toast.LENGTH_SHORT).show();
                 return true;
             }
             return false;
@@ -143,11 +116,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Notifications enabled", Toast.LENGTH_SHORT).show();
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Notification permission granted!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Notification permission denied.", Toast.LENGTH_SHORT).show();
             }
         }
     }

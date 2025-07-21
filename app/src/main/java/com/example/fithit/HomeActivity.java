@@ -1,23 +1,28 @@
 package com.example.fithit;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.ComponentActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.*;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -75,7 +80,8 @@ public class HomeActivity extends AppCompatActivity {
                     String name = snapshot.getValue(String.class);
                     greeting.setText(name != null ? name : "Welcome");
                 }
-                @Override public void onCancelled(DatabaseError error) {
+                @Override
+                public void onCancelled(DatabaseError error) {
                     greeting.setText("Welcome");
                 }
             });
@@ -99,17 +105,19 @@ public class HomeActivity extends AppCompatActivity {
 
         findViewById(R.id.bellIcon).setOnClickListener(v ->
                 Toast.makeText(this, "Notifications", Toast.LENGTH_SHORT).show());
+
+        // Health Dashboard Button
+        findViewById(R.id.btnHealth).setOnClickListener(v -> {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, SplashActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
+            } else {
+                startActivity(new Intent(this, HealthDashboardActivity.class));
+            }
+        });
     }
-    // Buttons
-    findViewById(R.id.btnHealth).setOnClickListener(v -> {
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            startActivity(new Intent(this, SplashActivity.class)
-                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-            finish();
-        } else {
-            startActivity(new Intent(this, HealthDashboardActivity.class));
-        }
-    });
+
     private void setupNavigation() {
         BottomNavigationView navView = findViewById(R.id.bottom_navigation);
         navView.setOnNavigationItemSelectedListener(item -> {

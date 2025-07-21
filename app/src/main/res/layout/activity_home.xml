@@ -122,7 +122,7 @@
         android:id="@+id/workoutCategories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Workout Categories"
+        android:text="Other Features"
         android:textSize="18sp"
         android:layout_below="@id/workoutDescription"
         android:layout_marginTop="25dp"
@@ -134,13 +134,15 @@
         android:id="@+id/seeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="See All"
+        android:text="Select One"
         android:textSize="18sp"
         android:layout_alignBaseline="@id/workoutCategories"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:textColor="@android:color/holo_orange_dark"
         android:fontFamily="sans-serif" />
+
+
 
     <!-- Category Buttons -->
     <LinearLayout
@@ -155,72 +157,56 @@
         android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/btnBeginner"
+            android:id="@+id/btnrecommendation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:fontFamily="sans-serif"
-            android:text="Beginner"
+            android:text="GEt Recommendation "
             android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/btnIntermediate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:fontFamily="sans-serif"
-            android:text="Intermediate"
-            android:textColor="@android:color/white" />
+
 
         <Button
-            android:id="@+id/btnAdvanced"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnPosture"
+            android:layout_width="184dp"
             android:layout_height="wrap_content"
+
+            android:layout_marginEnd="2dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:fontFamily="sans-serif"
-            android:text="Advanced"
+            android:text="Get Posture Correct "
             android:textColor="@android:color/white" />
+
     </LinearLayout>
 
-    <!-- Gamification -->
-    <Button
-        android:id="@+id/btnGamification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gamification"
-        android:layout_below="@id/categoryButtons"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@android:color/holo_orange_dark"
-        android:textColor="@android:color/white" />
 
-    <!-- Bottom Image -->
     <ImageView
         android:id="@+id/bottomImage"
-        android:layout_width="match_parent"
-        android:layout_height="156dp"
-        android:layout_below="@id/btnGamification"
+        android:layout_width="330dp"
+        android:layout_height="126dp"
+        android:layout_below="@id/categoryButtons"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="11dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/sample_image2" />
 
-    <!-- Start Basics -->
-    <TextView
-        android:id="@+id/startFromBasic"
+    <!-- Modified Health Dashboard Button -->
+    <Button
+        android:id="@+id/btnHealth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start from Basics"
-        android:textSize="22sp"
         android:layout_below="@id/bottomImage"
-        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:fontFamily="sans-serif"
+        android:text="Health Dashboard"
+        android:textColor="@android:color/white" />
+
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

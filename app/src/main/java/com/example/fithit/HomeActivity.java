@@ -79,11 +79,6 @@ public class HomeActivity extends AppCompatActivity {
         TextView dateText = findViewById(R.id.dateText);
         ImageView bellIcon = findViewById(R.id.bellIcon);
 
-        Button btnBeginner = findViewById(R.id.btnBeginner);
-        Button btnIntermediate = findViewById(R.id.btnIntermediate);
-        Button btnAdvanced = findViewById(R.id.btnAdvanced);
-        Button btnGamification = findViewById(R.id.btnGamification);
-
         // Load user name
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -116,34 +111,33 @@ public class HomeActivity extends AppCompatActivity {
         workoutImage.setImageResource(R.drawable.sample_image);
 
         // Button Clicks
-        btnBeginner.setOnClickListener(v -> {
-            FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
-            if (u == null) {
-                startActivity(new Intent(HomeActivity.this, SplashActivity.class));
+        findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, SplashActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 finish();
             } else {
-                updateExerciseCount();
-                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
+                startActivity(new Intent(this, RecommendationActivity.class));
             }
         });
 
-        btnIntermediate.setOnClickListener(v ->
-                Toast.makeText(this, "Intermediate level selected!", Toast.LENGTH_SHORT).show()
-        );
-
-        btnAdvanced.setOnClickListener(v ->
-                Toast.makeText(this, "Advanced level selected!", Toast.LENGTH_SHORT).show()
-        );
-
-        btnGamification.setOnClickListener(v ->
-                startActivity(new Intent(HomeActivity.this, BadgesActivity.class))
-        );
-
+        findViewById(R.id.btnPosture).setOnClickListener(v ->
+                Toast.makeText(this, "Posture Correct selected!", Toast.LENGTH_SHORT).show());
         bellIcon.setOnClickListener(v ->
                 Toast.makeText(this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
         );
 
-        // Bottom Navigation
+        findViewById(R.id.btnHealth).setOnClickListener(v -> {
+            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                startActivity(new Intent(this, SplashActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                finish();
+            } else {
+                startActivity(new Intent(this, HealthDashboardActivity.class));
+            }
+        });
+
+        // ✅ Bottom Navigation (placed correctly INSIDE onCreate)
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

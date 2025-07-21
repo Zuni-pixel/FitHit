@@ -1,10 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeActivity">
 
+    <!-- Title -->
     <TextView
         android:id="@+id/appName"
         android:layout_width="wrap_content"
@@ -21,7 +23,7 @@
         android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
         android:layout_toEndOf="@id/appName"
         android:fontFamily="sans-serif"
@@ -39,6 +41,7 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_bell" />
 
+    <!-- Greeting -->
     <TextView
         android:id="@+id/greeting"
         android:layout_width="wrap_content"
@@ -60,10 +63,11 @@
         android:textSize="24sp"
         android:layout_below="@id/appName"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:textColor="@android:color/holo_orange_dark"
         android:fontFamily="sans-serif" />
 
+    <!-- Workout Plan -->
     <TextView
         android:id="@+id/todaysWorkoutPlan"
         android:layout_width="wrap_content"
@@ -88,17 +92,19 @@
         android:textColor="@android:color/holo_orange_dark"
         android:fontFamily="sans-serif" />
 
+    <!-- Top Image -->
     <ImageView
         android:id="@+id/middleImage"
-        android:layout_width="359dp"
+        android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_below="@id/todaysWorkoutPlan"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="17dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:scaleType="centerCrop"
         android:src="@drawable/sample_image" />
 
+    <!-- Workout Description -->
     <TextView
         android:id="@+id/workoutDescription"
         android:layout_width="wrap_content"
@@ -111,93 +117,119 @@
         android:textColor="@android:color/black"
         android:fontFamily="sans-serif" />
 
+    <!-- Category Title -->
     <TextView
         android:id="@+id/workoutCategories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Workout Categories"
+        android:textSize="18sp"
         android:layout_below="@id/workoutDescription"
+        android:layout_marginTop="25dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="6dp"
-        android:fontFamily="sans-serif"
-        android:text="Other Features "
         android:textColor="@android:color/black"
-        android:textSize="18sp" />
+        android:fontFamily="sans-serif" />
 
     <TextView
         android:id="@+id/seeAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="See All"
+        android:textSize="18sp"
         android:layout_alignBaseline="@id/workoutCategories"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
-        android:fontFamily="sans-serif"
-        android:text="Select one "
         android:textColor="@android:color/holo_orange_dark"
-        android:textSize="18sp" />
+        android:fontFamily="sans-serif" />
 
+    <!-- Category Buttons -->
     <LinearLayout
         android:id="@+id/categoryButtons"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/workoutCategories"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
 
         <Button
-            android:id="@+id/btnrecommendation"
+            android:id="@+id/btnBeginner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:fontFamily="sans-serif"
-            android:text="GEt Recommendation "
+            android:text="Beginner"
             android:textColor="@android:color/white" />
 
         <Button
-            android:id="@+id/btnPosture"
-            android:layout_width="184dp"
+            android:id="@+id/btnIntermediate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="8dp"
             android:backgroundTint="@android:color/holo_orange_dark"
             android:fontFamily="sans-serif"
-            android:text="Get Posture Correct "
+            android:text="Intermediate"
             android:textColor="@android:color/white" />
 
+        <Button
+            android:id="@+id/btnAdvanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_orange_dark"
+            android:fontFamily="sans-serif"
+            android:text="Advanced"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
+    <!-- Gamification -->
+    <Button
+        android:id="@+id/btnGamification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gamification"
+        android:layout_below="@id/categoryButtons"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:textColor="@android:color/white" />
+
+    <!-- Bottom Image -->
     <ImageView
         android:id="@+id/bottomImage"
-        android:layout_width="330dp"
-        android:layout_height="126dp"
-        android:layout_below="@id/categoryButtons"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_below="@id/btnGamification"
         android:layout_marginTop="11dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:scaleType="centerCrop"
         android:src="@drawable/sample_image2" />
 
-    <!-- Modified Health Dashboard Button -->
-    <Button
-        android:id="@+id/btnHealth"
+    <!-- Start Basics -->
+    <TextView
+        android:id="@+id/startFromBasic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Start from Basics"
+        android:textSize="22sp"
         android:layout_below="@id/bottomImage"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/holo_orange_dark"
-        android:fontFamily="sans-serif"
-        android:text="Health Dashboard"
-        android:textColor="@android:color/white" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:fontFamily="sans-serif" />
+
+    <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-1dp"
         android:background="#E4E2E2"
         app:itemIconTint="@color/nav_item_color"
         app:menu="@menu/bottom_navigation_menu" />
+
 </RelativeLayout>

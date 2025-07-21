@@ -18,5 +18,5 @@
     <item
         android:id="@+id/navigation_person"
         android:icon="@drawable/ic_person"
-        android:title="Settings"/>
+        android:title="Community"/>
 </menu>

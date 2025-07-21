@@ -1,26 +1,18 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
-
 }
 
 android {
     namespace 'com.example.fithit'
     compileSdk 35
-    android {
-        aaptOptions {
-            noCompress "tflite"
-        }
-    }
-
 
     defaultConfig {
         applicationId "com.example.fithit"
-        minSdk 24
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,29 +22,43 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        mlModelBinding true
+    }
+
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 dependencies {
-
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.firebase.auth
     implementation libs.firebase.database
+    implementation libs.tensorflow.lite.metadata
     testImplementation libs.junit
-
-
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-        implementation 'org.tensorflow:tensorflow-lite:2.12.0'
-        implementation 'org.tensorflow:tensorflow-lite-support:0.4.3'
-        // workmnager dependency
-        implementation "androidx.work:work-runtime-ktx:2.7.1"
 
+    // TensorFlow Lite
+    implementation 'org.tensorflow:tensorflow-lite:2.12.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.3'
 
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
+    // Apache POI (Excel)
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+    // MPAndroidChart (CORRECTED)
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

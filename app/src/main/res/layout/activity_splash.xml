@@ -39,23 +39,6 @@
         android:fontFamily="sans-serif-medium" />
 
     <!-- ViewPager -->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_below="@id/welcomeText"
-        android:layout_above="@id/tabLayout" />
-
-    <!-- Dots Indicator (TabLayout) -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
-        android:background="@android:color/transparent" />
 
     <!-- Bottom Navigation (Skip and Next) -->
     <LinearLayout

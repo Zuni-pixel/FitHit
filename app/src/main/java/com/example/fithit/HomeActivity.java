@@ -90,16 +90,16 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     String userName = snapshot.getValue(String.class);
-                    greeting.setText(userName != null ? userName : "Welcome");
+                    greeting.setText(userName != null ? userName : "Zunaira");
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    greeting.setText("Welcome");
+                    greeting.setText("Zunaira");
                 }
             });
         } else {
-            greeting.setText("Welcome");
+            greeting.setText("Zuaira");
         }
 
         // Date
@@ -107,17 +107,15 @@ public class HomeActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         dateText.setText(dateFormat.format(currentDate));
 
-        workoutDescription.setText("Day 1 - Cardio");
+        workoutDescription.setText("Day 1 - Squat");
         workoutImage.setImageResource(R.drawable.sample_image);
 
         // Button Clicks
-        findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
-            } else {
-                startActivity(new Intent(this, RecommendationActivity.class));
+        findViewById(R.id.btnHealth).setOnClickListener(v -> {
+            try {
+                startActivity(new Intent(HomeActivity.this, HealthDashboardActivity.class));
+            } catch (Exception e) {
+                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,15 +125,6 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
         );
 
-        findViewById(R.id.btnHealth).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
-            } else {
-                startActivity(new Intent(this, HealthDashboardActivity.class));
-            }
-        });
 
         // ✅ Bottom Navigation (placed correctly INSIDE onCreate)
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);

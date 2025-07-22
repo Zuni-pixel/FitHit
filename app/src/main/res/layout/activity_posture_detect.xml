@@ -55,18 +55,6 @@
                 tools:layout_editor_absoluteX="181dp"
                 tools:layout_editor_absoluteY="12dp" />
 
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:backgroundTint="@color/main"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/back_arrow"
-                app:tint="@color/white"
-                tools:layout_editor_absoluteX="348dp"
-                tools:layout_editor_absoluteY="1dp" />
         </androidx.appcompat.widget.Toolbar>
 
 

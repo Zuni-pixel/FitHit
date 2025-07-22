@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -121,8 +122,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btnPosture).setOnClickListener(v ->
-                Toast.makeText(this, "Posture Correct selected!", Toast.LENGTH_SHORT).show());
+//        findViewById(R.id.btnPosture).setOnClickListener(v -> {
+//            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//                startActivity(new Intent(this, SplashActivity.class)
+//                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+//                finish();
+//            } else {
+//                startActivity(new Intent(this, PostureActivity.class));
+//            }
+//        });
+        findViewById(R.id.btnPosture).setOnClickListener(v -> {
+            // Verify this targets YOUR feature's activity (not SplashActivity)
+            Intent intent = new Intent(this, PostureActivity.class);
+            startActivity(intent);
+        });
+
         bellIcon.setOnClickListener(v ->
                 Toast.makeText(this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
         );
@@ -145,7 +159,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "You're already on Home 🏠", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
-                Toast.makeText(this, "Workouts selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, PostureActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

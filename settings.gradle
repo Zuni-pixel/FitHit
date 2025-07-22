@@ -18,6 +18,7 @@ dependencyResolutionManagement {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }  // Required for HelloCharts
+        mavenCentral()
     }
 }
 

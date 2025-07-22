@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.postureV2.fragment
+package com.example.fithit.fragment
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -37,10 +37,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
-import com.example.postureV2.PoseLandmarkerHelper
-import com.example.postureV2.MainViewModel
-import com.example.postureV2.R
-import com.example.postureV2.databinding.FragmentCameraBinding
+import com.example.fithit.PoseLandmarkerHelper
+import com.example.fithit.MainViewModel
+import com.example.fithit.R
+import com.example.fithit.databinding.FragmentCameraBinding
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import java.util.Locale
 import java.util.concurrent.ExecutorService

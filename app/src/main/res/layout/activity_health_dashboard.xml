@@ -63,17 +63,6 @@
                 android:progress="0"
                 android:max="100"
                 android:progressDrawable="@drawable/custom_progress_bar"/>
-
-            <TextView
-                android:id="@+id/tvMotivationalQuote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Every step counts! Keep going!"
-                android:textSize="14sp"
-                android:textColor="#666666"
-                android:gravity="center"
-                android:layout_marginTop="12dp"
-                android:fontFamily="sans-serif-light"/>
         </LinearLayout>
 
         <!-- Health Metrics Grid -->
@@ -275,6 +264,61 @@
                         android:text="mmHg"
                         android:textSize="12sp"/>
                 </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Motivational Quote -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFF3E0"
+            android:padding="16dp"
+            android:elevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvMotivationalQuote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Every step counts! Keep going!"
+                android:textSize="16sp"
+                android:textColor="#FF5722"
+                android:gravity="center"
+                android:fontFamily="sans-serif-medium"/>
+        </LinearLayout>
+
+        <!-- Interactive Space -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:padding="16dp"
+            android:elevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/ivPulseAnimation"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_heart_pulse"
+                    android:layout_marginEnd="16dp"/>
+
+                <TextView
+                    android:id="@+id/tvInteractiveTip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap for health tips!"
+                    android:textSize="14sp"
+                    android:textColor="#5D4037"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="8dp"/>
             </LinearLayout>
         </LinearLayout>
 

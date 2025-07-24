@@ -1,13 +1,19 @@
 package com.example.fithit;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +38,10 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
 
     // UI Components
     private TextView tvSteps, tvWater, tvCalories, tvHeartRate, tvSleep, tvBloodPressure;
-    private TextView tvActivityStatus, tvMotivationalQuote;
+    private TextView tvActivityStatus, tvMotivationalQuote, tvInteractiveTip;
     private ProgressBar pbActivityProgress;
     private Button btnAddManual, btnDailySummary;
+    private ImageView ivPulseAnimation;
 
     // Activity tracking
     private int dailyGoal = 10000;
@@ -46,6 +53,14 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
             "Stay hydrated and keep moving!"
     };
 
+    private String[] healthTips = {
+            "Tip: Drink water first thing in the morning",
+            "Tip: Take short breaks to walk every hour",
+            "Tip: Deep breathing reduces stress",
+            "Tip: 7-8 hours sleep boosts metabolism",
+            "Tip: Stretch every 90 minutes"
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +68,7 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
 
         initViews();
         setupSensors();
+        setupInteractiveElements();
         updateAllMetrics();
         setupButtons();
         startMotivationalQuoteCycle();
@@ -65,12 +81,11 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
         tvHeartRate = findViewById(R.id.tvHeartRate);
         tvSleep = findViewById(R.id.tvSleep);
         tvBloodPressure = findViewById(R.id.tvBloodPressure);
-
-        // New interactive elements
         tvActivityStatus = findViewById(R.id.tvActivityStatus);
         tvMotivationalQuote = findViewById(R.id.tvMotivationalQuote);
+        tvInteractiveTip = findViewById(R.id.tvInteractiveTip);
         pbActivityProgress = findViewById(R.id.pbActivityProgress);
-
+        ivPulseAnimation = findViewById(R.id.ivPulseAnimation);
         btnAddManual = findViewById(R.id.btnAddManual);
         btnDailySummary = findViewById(R.id.btnDailySummary);
     }
@@ -89,6 +104,39 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
         if (heartRateSensor != null) {
             sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
+    }
+
+    private void setupInteractiveElements() {
+        // Set up pulse animation
+        startPulseAnimation();
+
+        // Set up click listener for interactive tip
+        tvInteractiveTip.setOnClickListener(v -> {
+            Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+            tvInteractiveTip.startAnimation(shake);
+            showRandomHealthTip();
+        });
+    }
+
+    private void startPulseAnimation() {
+        ValueAnimator animator = ValueAnimator.ofFloat(0.8f, 1.2f);
+        animator.setDuration(1000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            ivPulseAnimation.setScaleX(value);
+            ivPulseAnimation.setScaleY(value);
+        });
+        animator.start();
+    }
+
+    private void showRandomHealthTip() {
+        int randomIndex = (int)(Math.random() * healthTips.length);
+        tvInteractiveTip.setText(healthTips[randomIndex]);
+
+        Animation flash = AnimationUtils.loadAnimation(this, R.anim.flash);
+        tvInteractiveTip.startAnimation(flash);
     }
 
     private void updateAllMetrics() {

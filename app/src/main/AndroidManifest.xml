@@ -35,20 +35,10 @@
             android:name=".RecommendationActivity"
             android:exported="false" />
         <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
-        <activity
             android:name=".HomeActivity"
             android:exported="false" />
-        <activity
-            android:name=".ScreenThreeFragment"
-            android:exported="false" />
-        <activity
-            android:name=".ScreenTwoFragment"
-            android:exported="false" />
-        <activity
-            android:name=".ScreenOneFragment"
-            android:exported="false" />
+
+
         <activity
             android:name=".goalInfoActivity"
             android:exported="false" />

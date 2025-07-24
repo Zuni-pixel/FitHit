@@ -6,15 +6,18 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class HealthDashboardActivity extends AppCompatActivity implements SensorEventListener {
 
-    // Health Metrics - All initialized to zero/empty
+    // Health Metrics
     private int steps = 0;
     private int waterGlasses = 0;
     private int calories = 0;
@@ -29,7 +32,19 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
 
     // UI Components
     private TextView tvSteps, tvWater, tvCalories, tvHeartRate, tvSleep, tvBloodPressure;
+    private TextView tvActivityStatus, tvMotivationalQuote;
+    private ProgressBar pbActivityProgress;
     private Button btnAddManual, btnDailySummary;
+
+    // Activity tracking
+    private int dailyGoal = 10000;
+    private String[] motivationalQuotes = {
+            "Every step counts! Keep going!",
+            "You're closer to your goal than yesterday!",
+            "Small progress is still progress!",
+            "Your health is your wealth!",
+            "Stay hydrated and keep moving!"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,7 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
         setupSensors();
         updateAllMetrics();
         setupButtons();
+        startMotivationalQuoteCycle();
     }
 
     private void initViews() {
@@ -49,6 +65,11 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
         tvHeartRate = findViewById(R.id.tvHeartRate);
         tvSleep = findViewById(R.id.tvSleep);
         tvBloodPressure = findViewById(R.id.tvBloodPressure);
+
+        // New interactive elements
+        tvActivityStatus = findViewById(R.id.tvActivityStatus);
+        tvMotivationalQuote = findViewById(R.id.tvMotivationalQuote);
+        pbActivityProgress = findViewById(R.id.pbActivityProgress);
 
         btnAddManual = findViewById(R.id.btnAddManual);
         btnDailySummary = findViewById(R.id.btnDailySummary);
@@ -61,6 +82,8 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
 
         if (stepCounterSensor != null) {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
+            tvActivityStatus.setText("Step counter not available");
         }
 
         if (heartRateSensor != null) {
@@ -71,15 +94,49 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
     private void updateAllMetrics() {
         tvSteps.setText(String.valueOf(steps));
         tvWater.setText(String.valueOf(waterGlasses));
+
+        // Auto-calculate calories (approx 0.04 calories per step)
+        calories = (int)(steps * 0.04);
         tvCalories.setText(String.valueOf(calories));
+
         tvHeartRate.setText(heartRate == 0 ? "--" : String.valueOf(heartRate));
         tvSleep.setText(sleepHours == 0 ? "--" : String.format("%.1f", sleepHours));
         tvBloodPressure.setText(bloodPressure);
 
-        // Auto-calculate calories only if steps exist
-        if (steps > 0) {
-            calories = (int)(steps * 0.04);
+        // Update activity progress
+        updateActivityStatus();
+    }
+
+    private void updateActivityStatus() {
+        int progress = (int)((steps * 100f) / dailyGoal);
+        pbActivityProgress.setProgress(progress > 100 ? 100 : progress);
+
+        if (steps == 0) {
+            tvActivityStatus.setText("Start moving to begin tracking!");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_low));
+        } else if (steps < dailyGoal/2) {
+            tvActivityStatus.setText("Keep going! You're making progress");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_medium));
+        } else if (steps < dailyGoal) {
+            tvActivityStatus.setText("Almost there! You can do it!");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_high));
+        } else {
+            tvActivityStatus.setText("Goal achieved! Excellent work!");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_complete));
         }
+    }
+
+    private void startMotivationalQuoteCycle() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            int currentIndex = 0;
+            @Override
+            public void run() {
+                tvMotivationalQuote.setText(motivationalQuotes[currentIndex]);
+                currentIndex = (currentIndex + 1) % motivationalQuotes.length;
+                handler.postDelayed(this, 10000); // Change every 10 seconds
+            }
+        }, 1000);
     }
 
     private void setupButtons() {
@@ -99,39 +156,21 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
     private void generateDailySummary() {
         StringBuilder summary = new StringBuilder("Today's Health Summary:\n\n");
 
-        // Steps
-        summary.append("Steps: ").append(steps);
-        if (steps > 0) {
-            summary.append("\n- ").append(getStepsAnalysis());
-        }
-        summary.append("\n");
-
-        // Water
-        summary.append("Water Intake: ").append(waterGlasses).append(" glasses");
-        if (waterGlasses > 0) {
-            summary.append("\n- ").append(getWaterAnalysis());
-        }
-        summary.append("\n");
-
-        // Calories
+        summary.append("Steps: ").append(steps).append(" (")
+                .append(String.format("%.1f%%", (steps * 100f) / dailyGoal)).append(" of goal)\n");
+        summary.append("Water Intake: ").append(waterGlasses).append(" glasses\n");
         summary.append("Calories Burned: ").append(calories).append("\n");
 
-        // Heart Rate
         if (heartRate > 0) {
-            summary.append("\nHeart Rate: ").append(heartRate).append(" BPM");
-            summary.append("\n- ").append(getHeartRateAnalysis());
+            summary.append("\nHeart Rate: ").append(heartRate).append(" BPM\n");
         }
 
-        // Sleep
         if (sleepHours > 0) {
-            summary.append("\n\nSleep: ").append(String.format("%.1f", sleepHours)).append(" hours");
-            summary.append("\n- ").append(getSleepAnalysis());
+            summary.append("Sleep: ").append(String.format("%.1f", sleepHours)).append(" hours\n");
         }
 
-        // Blood Pressure
         if (!bloodPressure.equals("--/--")) {
-            summary.append("\n\nBlood Pressure: ").append(bloodPressure).append(" mmHg");
-            summary.append("\n- ").append(getBPAnalysis());
+            summary.append("\nBlood Pressure: ").append(bloodPressure).append(" mmHg\n");
         }
 
         new AlertDialog.Builder(this)
@@ -139,49 +178,6 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
                 .setMessage(summary)
                 .setPositiveButton("OK", null)
                 .show();
-    }
-
-    private String getStepsAnalysis() {
-        if (steps < 3000) return "Try to walk more tomorrow";
-        if (steps < 6000) return "Good start!";
-        if (steps < 10000) return "Great job! Keep it up";
-        return "Excellent activity level!";
-    }
-
-    private String getWaterAnalysis() {
-        if (waterGlasses < 4) return "Try to drink more water";
-        if (waterGlasses < 6) return "Good hydration";
-        return "Perfect water intake";
-    }
-
-    private String getHeartRateAnalysis() {
-        if (heartRate < 60) return "Healthy resting heart rate";
-        if (heartRate < 100) return "Normal heart rate";
-        return "Consider checking with your doctor";
-    }
-
-    private String getSleepAnalysis() {
-        if (sleepHours < 6) return "Try to get more sleep";
-        if (sleepHours < 7) return "Almost recommended amount";
-        if (sleepHours < 9) return "Healthy sleep duration";
-        return "Well rested!";
-    }
-
-    private String getBPAnalysis() {
-        try {
-            String[] bp = bloodPressure.split("/");
-            if (bp.length != 2) return "Check measurement";
-
-            int systolic = Integer.parseInt(bp[0]);
-            int diastolic = Integer.parseInt(bp[1]);
-
-            if (systolic < 90 || diastolic < 60) return "Low - consult your doctor";
-            if (systolic < 120 && diastolic < 80) return "Normal blood pressure";
-            if (systolic < 140 || diastolic < 90) return "Slightly elevated - monitor";
-            return "High - medical advice recommended";
-        } catch (Exception e) {
-            return "Invalid measurement";
-        }
     }
 
     @Override
@@ -212,7 +208,7 @@ public class HealthDashboardActivity extends AppCompatActivity implements Sensor
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Handle accuracy changes if needed
+        // Handle accuracy changes
     }
 
     @Override

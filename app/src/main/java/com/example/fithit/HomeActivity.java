@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
         NotificationScheduler.scheduleNotifications(this);
 
-        greeting = findViewById(R.id.greeting1);
+
         TextView workoutDescription = findViewById(R.id.workoutDescription);
         ImageView workoutImage = findViewById(R.id.middleImage);
         TextView dateText = findViewById(R.id.dateText);
@@ -118,6 +118,14 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
             }
         });
+        // Button Clicks
+        findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
+            try {
+                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
+            } catch (Exception e) {
+                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         findViewById(R.id.btnPosture).setOnClickListener(v ->
                 Toast.makeText(this, "Posture Correct selected!", Toast.LENGTH_SHORT).show());
@@ -134,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "You're already on Home 🏠", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
-                Toast.makeText(this, "Workouts selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

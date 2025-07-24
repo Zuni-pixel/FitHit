@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Fit Hit</string>
 
+
     <!-- Other strings -->
     <string-array name="diseases_array">
         <item>Arthritis</item>
@@ -9,5 +10,6 @@
         <item>Asthma</item>
         <item>No / Other </item>
     </string-array>
+
 
 </resources>

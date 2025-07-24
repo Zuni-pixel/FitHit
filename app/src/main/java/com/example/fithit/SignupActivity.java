@@ -1,5 +1,4 @@
 package com.example.fithit;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fithit.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -27,7 +27,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText usernameField, emailField, passwordField;
     private CheckBox termsCheckbox;
     private Button signupButton;
-    private TextView loginText;
+    private TextView loginText, termsLink;
 
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
@@ -39,7 +39,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth and Database
         mAuth = FirebaseAuth.getInstance();
-        usersRef = FirebaseDatabase.getInstance().getReference("Users"); // Pointing to your existing Users table
+        usersRef = FirebaseDatabase.getInstance().getReference("Users");
 
         // Initialize views
         usernameField = findViewById(R.id.usernameField);
@@ -48,6 +48,7 @@ public class SignupActivity extends AppCompatActivity {
         termsCheckbox = findViewById(R.id.termsCheckbox);
         signupButton = findViewById(R.id.signupButton);
         loginText = findViewById(R.id.loginText);
+        termsLink = findViewById(R.id.termsLink);
 
         // Signup Button
         signupButton.setOnClickListener(v -> handleSignup());
@@ -57,6 +58,25 @@ public class SignupActivity extends AppCompatActivity {
             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
         });
+
+        // Terms & Conditions Link
+        termsLink.setOnClickListener(v -> showTermsAndConditions());
+    }
+
+    private void showTermsAndConditions() {
+        // Create a simple dialog or start a new activity to show terms
+        // For simplicity, we'll show a dialog with basic terms
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Terms & Conditions")
+                .setMessage("By using FitHit, you agree to:\n\n" +
+                        "1. Use the app for personal fitness purposes only\n" +
+                        "2. Provide accurate health information\n" +
+                        "3. Not share your account with others\n" +
+                        "4. Accept all risks associated with exercise\n" +
+                        "5. Consult a physician before starting any new fitness program\n\n" +
+                        "We reserve the right to modify these terms at any time.")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     private void handleSignup() {

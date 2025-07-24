@@ -16,9 +16,10 @@
         <!-- App Logo -->
         <ImageView
             android:layout_width="93dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="70dp"
             android:src="@drawable/logo" />
 
         <!-- App Title Container -->
@@ -69,9 +70,10 @@
 
         <!-- Email Input -->
         <LinearLayout
-            android:layout_width="385dp"
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/rounded_edittext"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -83,7 +85,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="Email Id*"
-                android:padding="4dp"
+                android:padding="10dp"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
@@ -96,7 +98,7 @@
 
         <!-- Password Input -->
         <LinearLayout
-            android:layout_width="389dp"
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_edittext"
@@ -111,7 +113,7 @@
                 android:background="@null"
                 android:hint="Password*"
                 android:inputType="textPassword"
-                android:padding="4dp"
+                android:padding="10dp"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
@@ -143,36 +145,7 @@
             android:text="LOGIN"
             android:textColor="#FFFFFF" />
 
-        <!-- OR Divider -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:text="OR"
-            android:textColor="#000000" />
 
-        <!-- Social Login Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/googleLogin"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/search" />
-
-            <ImageView
-                android:id="@+id/facebookLogin"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/facebook" />
-        </LinearLayout>
 
         <!-- Signup Link -->
         <TextView

@@ -13,19 +13,88 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Health Data"
+            android:text="Enter Health Data"
             android:textSize="24sp"
-            android:textColor="@color/black"
+            android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
 
-        <!-- Blood Pressure Input -->
+        <!-- Steps -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Steps">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSteps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Water -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Water (glasses)">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etWater"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Calories -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Calories">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCalories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Heart Rate -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Heart Rate (BPM)">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etHeartRate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Sleep -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Sleep (hours)">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSleep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Blood Pressure -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Blood Pressure"
-            android:textSize="18sp"
-            android:textColor="@color/black"
+            android:text="Blood Pressure (mmHg)"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"/>
 
         <LinearLayout
@@ -62,28 +131,23 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <!-- Heart Rate Input -->
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- Help Text -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Heart Rate (BPM)">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etHeartRate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:text="Leave fields blank to keep current values"
+            android:textSize="12sp"
+            android:textColor="#666666"
+            android:layout_marginTop="16dp"/>
 
         <!-- Save Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Data"
+            android:text="SAVE HEALTH DATA"
             android:layout_marginTop="24dp"
-            app:backgroundTint="@color/primary"
+            app:backgroundTint="#4CAF50"
             app:cornerRadius="8dp"/>
     </LinearLayout>
 </ScrollView>

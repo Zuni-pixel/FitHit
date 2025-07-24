@@ -79,6 +79,17 @@
 
         <!-- Change Password Button -->
         <Button
+            android:id="@+id/btnChangeHealthData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#FFA500"
+            android:padding="12dp"
+            android:text="Change Health Data"
+            android:background="@drawable/rounded_button"
+            android:textColor="@android:color/white" />
+
+        <Button
             android:id="@+id/btnChangePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,11 +104,12 @@
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="140dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="#FFA500"
             android:text="Logout"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_button"/>
 
     </LinearLayout>
 </ScrollView>

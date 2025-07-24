@@ -215,10 +215,10 @@ public class RecommendationActivity extends AppCompatActivity {
         }
 
         // 4. Update UI
-        tvExercise.setText("Exercise: " + recommendation[0]);
-        tvDiet.setText("Diet: " + recommendation[1]);
-        tvEquipment.setText("Equipment: " + recommendation[2]);
-        tvSets.setText("Sets: " + recommendation[3]);
+        tvExercise.setText("\uD83C\uDFCB\uFE0FExercise: " + recommendation[0]);
+        tvDiet.setText("\uD83E\uDD57Diet: " + recommendation[1]);
+        tvEquipment.setText("\uD83D\uDEE0\uFE0FEquipment: " + recommendation[2]);
+        tvSets.setText("\uD83D\uDCAA Sets: " + recommendation[3]);
     }
 
     private String generateSetsDescription(int classIndex) {

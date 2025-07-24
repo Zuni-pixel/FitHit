@@ -79,29 +79,6 @@ public class HomeActivity extends AppCompatActivity {
         TextView dateText = findViewById(R.id.dateText);
         ImageView bellIcon = findViewById(R.id.bellIcon);
 
-        // Load user name
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance()
-                    .getReference("Users")
-                    .child(currentUser.getUid());
-
-            userRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String userName = snapshot.getValue(String.class);
-                    greeting.setText(userName != null ? userName : "Zunaira");
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    greeting.setText("Zunaira");
-                }
-            });
-        } else {
-            greeting.setText("Zuaira");
-        }
-
         // Date
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");

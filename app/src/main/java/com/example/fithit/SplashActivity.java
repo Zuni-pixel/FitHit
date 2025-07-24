@@ -1,5 +1,4 @@
 package com.example.fithit;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -37,10 +36,10 @@ public class SplashActivity extends AppCompatActivity {
         findViewById(R.id.nextButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(SplashActivity.this, SignActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                Intent intent = new Intent(SplashActivity.this, SignActivity.class);
+                startActivity(intent);
+                finish();
+            }
 
         });
     }

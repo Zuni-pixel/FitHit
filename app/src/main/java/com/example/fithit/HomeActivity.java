@@ -73,34 +73,11 @@ public class HomeActivity extends AppCompatActivity {
 
         NotificationScheduler.scheduleNotifications(this);
 
-        greeting = findViewById(R.id.greeting1);
+
         TextView workoutDescription = findViewById(R.id.workoutDescription);
         ImageView workoutImage = findViewById(R.id.middleImage);
         TextView dateText = findViewById(R.id.dateText);
         ImageView bellIcon = findViewById(R.id.bellIcon);
-
-        // Load user name
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance()
-                    .getReference("Users")
-                    .child(currentUser.getUid());
-
-            userRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String userName = snapshot.getValue(String.class);
-                    greeting.setText(userName != null ? userName : "Zunaira");
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    greeting.setText("Zunaira");
-                }
-            });
-        } else {
-            greeting.setText("Zuaira");
-        }
 
         // Date
         Date currentDate = new Date();
@@ -114,6 +91,14 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.btnHealth).setOnClickListener(v -> {
             try {
                 startActivity(new Intent(HomeActivity.this, HealthDashboardActivity.class));
+            } catch (Exception e) {
+                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // Button Clicks
+        findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
+            try {
+                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
             } catch (Exception e) {
                 Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
             }
@@ -134,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "You're already on Home 🏠", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
-                Toast.makeText(this, "Workouts selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

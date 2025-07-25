@@ -11,65 +11,61 @@
         android:scaleType="centerCrop"
         android:src="@drawable/splash_1" />
 
-    <!-- Logo in the Top Left Corner -->
-
-    <!-- Welcome Text at the Top Center -->
-
     <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="154dp"
-        android:src="@drawable/logo" />
+    android:id="@+id/logoImage"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginStart="160dp"
+    android:layout_marginTop="154dp"
+    android:src="@drawable/logo" />
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="370dp"
-        android:text="Welcome To Fit Hit"
-        android:textSize="40sp"
-        android:textColor="#FFA500"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-medium" />
+<TextView
+android:id="@+id/welcomeText"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_centerHorizontal="true"
+android:layout_marginTop="370dp"
+android:text="Welcome To Fit Hit"
+android:textSize="40sp"
+android:textColor="#FFA500"
+android:textStyle="bold"
+android:fontFamily="sans-serif-medium" />
 
     <!-- ViewPager -->
 
     <!-- Bottom Navigation (Skip and Next) -->
-    <LinearLayout
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center">
+<LinearLayout
+android:id="@+id/bottomNavigation"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentBottom="true"
+android:orientation="horizontal"
+android:padding="16dp"
+android:gravity="center">
 
-        <TextView
-            android:id="@+id/skipButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Skip"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:padding="16dp"
-            android:layout_weight="1"
-            android:gravity="start" />
+<TextView
+    android:id="@+id/skipButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Skip"
+    android:textColor="#FFFFFF"
+    android:textSize="16sp"
+    android:padding="16dp"
+    android:layout_weight="1"
+    android:gravity="start" />
 
-        <TextView
-            android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:padding="16dp"
-            android:layout_weight="1"
-            android:gravity="end" />
-    </LinearLayout>
-</RelativeLayout>
+<TextView
+    android:id="@+id/nextButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Next"
+    android:textColor="#FFFFFF"
+    android:textSize="16sp"
+    android:padding="16dp"
+    android:layout_weight="1"
+    android:gravity="end" />
+</LinearLayout>
+    </RelativeLayout>

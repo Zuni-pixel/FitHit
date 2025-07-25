@@ -24,7 +24,6 @@
         <activity android:name=".BadgesActivity"></activity>
         <activity android:name=".CommunityActivity"/>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".LeaderboardActivity" />
         <activity
             android:name=".AddHealthDataActivity"
             android:exported="false" />
@@ -34,6 +33,7 @@
         <activity
             android:name=".RecommendationActivity"
             android:exported="false" />
+
         <activity
             android:name=".HomeActivity"
             android:exported="false" />

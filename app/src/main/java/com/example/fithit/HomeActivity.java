@@ -122,18 +122,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-//        findViewById(R.id.btnPosture).setOnClickListener(v -> {
-//            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-//                startActivity(new Intent(this, SplashActivity.class)
-//                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-//                finish();
-//            } else {
-//                startActivity(new Intent(this, PostureActivity.class));
-//            }
-//        });
         findViewById(R.id.btnPosture).setOnClickListener(v -> {
             // Verify this targets YOUR feature's activity (not SplashActivity)
-            Intent intent = new Intent(this, PostureActivity.class);
+            Intent intent = new Intent(this, selectExerciseActivity.class);
             startActivity(intent);
         });
 
@@ -159,7 +150,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "You're already on Home 🏠", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
-                startActivity(new Intent(HomeActivity.this, PostureActivity.class));
+                startActivity(new Intent(HomeActivity.this, selectExerciseActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

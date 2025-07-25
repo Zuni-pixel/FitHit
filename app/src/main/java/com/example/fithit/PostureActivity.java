@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.example.fithit.MainViewModel;
 
+import org.w3c.dom.Text;
+
 public class PostureActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private Spinner exerciseSpinner;
@@ -30,6 +32,8 @@ public class PostureActivity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_posture_detect);
+        Intent intent = getIntent();
+        String selectedExercise = intent.getStringExtra("selected_option");
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Toast.makeText(this, "USER NULL IN POSTURE ACTIVITY", Toast.LENGTH_SHORT).show();
@@ -37,14 +41,15 @@ public class PostureActivity extends AppCompatActivity {
 
         // Initialize ViewModel
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        exerciseSpinner = findViewById(R.id.posture_exercise);
+        TextView exerciseView = findViewById(R.id.posture_exercise);
+        exerciseView.setText(selectedExercise);
 
-        setupExerciseSpinner();
         observeViewModel();
         setupCompleteButton();
         //setupNavigator();
 
-        viewModel.setExercise(this, "Jumping Jacks");
+        assert selectedExercise != null;
+        viewModel.setExercise(this, selectedExercise);
     }
 
     private void setupExerciseSpinner() {
@@ -79,7 +84,7 @@ public class PostureActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.getExerciseReport().observe(this, report-> {
+        viewModel.getFullExerciseReport().observe(this, report-> {
             if (report !=null && !report.isEmpty()){
                 //Start ResultsActivity with the report
                 Intent intent = new Intent(PostureActivity.this, ResultsActivity.class);
@@ -88,6 +93,7 @@ public class PostureActivity extends AppCompatActivity {
 
                 //clear report after showing
                 viewModel.clearExerciseReport();
+
             }
         });
 

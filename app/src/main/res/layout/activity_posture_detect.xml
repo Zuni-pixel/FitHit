@@ -109,15 +109,15 @@
             app:navGraph="@navigation/nav_graph"
             tools:context=".MainActivity" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <TextView
             android:id="@+id/posture_exercise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/poseResults2"
-            android:entries="@array/exercises_for_posture"
             android:paddingTop="5dp"
-            android:spinnerMode="dropdown"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:text="No selected exercise..."
+            />
 
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

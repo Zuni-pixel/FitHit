@@ -6,194 +6,198 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/appName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fit"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
-
-    <TextView
-        android:id="@+id/userName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        android:layout_toEndOf="@id/appName"
-        android:fontFamily="sans-serif"
-        android:text="Hit"
-        android:textColor="@android:color/holo_orange_dark"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/bellIcon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="16dp"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_bell" />
-
-    <!-- Greeting -->
-    <TextView
-        android:id="@+id/greeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello"
-        android:textSize="24sp"
-        android:layout_below="@id/appName"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
-
-    <!-- Workout Plan -->
-    <TextView
-        android:id="@+id/todaysWorkoutPlan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Today's Workout Plan"
-        android:textSize="18sp"
-        android:layout_below="@id/greeting"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
-
-    <TextView
-        android:id="@+id/dateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="16 March 2025"
-        android:textSize="16sp"
-        android:layout_alignBaseline="@id/todaysWorkoutPlan"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:textColor="@android:color/holo_orange_dark"
-        android:fontFamily="sans-serif" />
-
-    <!-- Top Image -->
-    <ImageView
-        android:id="@+id/middleImage"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_below="@id/todaysWorkoutPlan"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/sample_image" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation">
 
-    <!-- Workout Description -->
-    <TextView
-        android:id="@+id/workoutDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Day 1  -   Warm Up"
-        android:textSize="20sp"
-        android:layout_below="@id/middleImage"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
-
-    <!-- Category Title -->
-    <TextView
-        android:id="@+id/workoutCategories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Other Features"
-        android:textSize="18sp"
-        android:layout_below="@id/workoutDescription"
-        android:layout_marginTop="25dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@android:color/black"
-        android:fontFamily="sans-serif" />
-
-    <TextView
-        android:id="@+id/seeAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select One"
-        android:textSize="18sp"
-        android:layout_alignBaseline="@id/workoutCategories"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:textColor="@android:color/holo_orange_dark"
-        android:fontFamily="sans-serif" />
-
-
-
-    <!-- Category Buttons -->
-    <LinearLayout
-        android:id="@+id/categoryButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/workoutCategories"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-
-        <Button
-            android:id="@+id/btnrecommendation"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:fontFamily="sans-serif"
-            android:text="GEt Recommendation "
-            android:textColor="@android:color/white" />
+            android:paddingBottom="10dp"> <!-- Add padding to avoid overlap with bottom nav -->
 
+        <!-- Title -->
+            <TextView
+                android:id="@+id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fit"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif" />
 
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="50dp"
+                android:layout_toEndOf="@id/appName"
+                android:fontFamily="sans-serif"
+                android:text="Hit"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnPosture"
-            android:layout_width="184dp"
-            android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/bellIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_bell" />
 
-            android:layout_marginEnd="2dp"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:fontFamily="sans-serif"
-            android:text="Get Posture Correct "
-            android:textColor="@android:color/white" />
+            <!-- Greeting -->
+            <TextView
+                android:id="@+id/greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello"
+                android:textSize="24sp"
+                android:layout_below="@id/appName"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif" />
 
-    </LinearLayout>
+            <!-- Workout Plan -->
+            <TextView
+                android:id="@+id/todaysWorkoutPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today's Workout Plan"
+                android:textSize="18sp"
+                android:layout_below="@id/greeting"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif" />
 
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16 March 2025"
+                android:textSize="16sp"
+                android:layout_alignBaseline="@id/todaysWorkoutPlan"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:textColor="@android:color/holo_orange_dark"
+                android:fontFamily="sans-serif" />
 
-    <ImageView
-        android:id="@+id/bottomImage"
-        android:layout_width="330dp"
-        android:layout_height="126dp"
-        android:layout_below="@id/categoryButtons"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/sample_image2" />
+            <!-- Top Image -->
+            <ImageView
+                android:id="@+id/middleImage"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:layout_below="@id/todaysWorkoutPlan"
+                android:layout_marginTop="17dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_image" />
 
-    <!-- Modified Health Dashboard Button -->
-    <Button
-        android:id="@+id/btnHealth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bottomImage"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@android:color/holo_orange_dark"
-        android:fontFamily="sans-serif"
-        android:text="Health Dashboard"
-        android:textColor="@android:color/white" />
+            <!-- Workout Description -->
+            <TextView
+                android:id="@+id/workoutDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day 1  -   Warm Up"
+                android:textSize="20sp"
+                android:layout_below="@id/middleImage"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif" />
 
+            <!-- Category Title -->
+            <TextView
+                android:id="@+id/workoutCategories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other Features"
+                android:textSize="18sp"
+                android:layout_below="@id/workoutDescription"
+                android:layout_marginTop="25dp"
+                android:layout_marginStart="16dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/seeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select One"
+                android:textSize="18sp"
+                android:layout_alignBaseline="@id/workoutCategories"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="16dp"
+                android:textColor="@android:color/holo_orange_dark"
+                android:fontFamily="sans-serif" />
+
+            <!-- Category Buttons -->
+            <LinearLayout
+                android:id="@+id/categoryButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/workoutCategories"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/btnrecommendation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:backgroundTint="@android:color/holo_orange_dark"
+                    android:fontFamily="sans-serif"
+                    android:text="GEt Recommendation "
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/btnPosture"
+                    android:layout_width="184dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:backgroundTint="@android:color/holo_orange_dark"
+                    android:fontFamily="sans-serif"
+                    android:text="Get Posture Correct "
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/bottomImage"
+                android:layout_width="330dp"
+                android:layout_height="126dp"
+                android:layout_below="@id/categoryButtons"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginEnd="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_image2" />
+
+            <!-- Modified Health Dashboard Button -->
+            <Button
+                android:id="@+id/btnHealth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/bottomImage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@android:color/holo_orange_dark"
+                android:fontFamily="sans-serif"
+                android:text="Health Dashboard"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </ScrollView>
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

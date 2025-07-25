@@ -6,6 +6,8 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <!-- Declare permissions -->
+    <uses-feature android:name="android.hardware.sensor.stepcounter" />
+    <uses-feature android:name="android.hardware.sensor.heartrate" />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -27,9 +29,11 @@
         <activity android:name=".LeaderboardActivity" />
         <activity
             android:name=".AddHealthDataActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog" />
         <activity
             android:name=".HealthDashboardActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".RecommendationActivity"

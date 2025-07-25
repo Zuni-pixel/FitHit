@@ -64,11 +64,15 @@
 
         android:layout_centerHorizontal="true"
         android:layout_marginTop="250dp"
+        android:fontFamily="sans-serif"
+        android:shadowColor="@color/black"
+        android:shadowDx="10"
+        android:shadowDy="10"
+        android:shadowRadius="10"
         android:text="DON'T QUIT STAY FIT"
-        android:textSize="22sp"
         android:textColor="#FFA500"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif" />
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <!-- Sign Up Button -->
     <Button

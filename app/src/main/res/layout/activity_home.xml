@@ -26,7 +26,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="50dp"
                 android:layout_marginStart="16dp"
-                android:textColor="@android:color/black"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="sans-serif" />
 
             <TextView
@@ -46,10 +46,11 @@
                 android:id="@+id/bellIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="16dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_bell" />
+                android:src="@drawable/ic_bell"
+                app:tint="?android:textColorPrimary" />
 
             <!-- Greeting -->
             <TextView
@@ -61,7 +62,7 @@
                 android:layout_below="@id/appName"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                android:textColor="@android:color/black"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="sans-serif" />
 
             <!-- Workout Plan -->
@@ -74,7 +75,7 @@
                 android:layout_below="@id/greeting"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                android:textColor="@android:color/black"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="sans-serif" />
 
             <TextView
@@ -111,7 +112,7 @@
                 android:layout_below="@id/middleImage"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                android:textColor="@android:color/black"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="sans-serif" />
 
             <!-- Category Title -->
@@ -124,7 +125,7 @@
                 android:layout_below="@id/workoutDescription"
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="16dp"
-                android:textColor="@android:color/black"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="sans-serif" />
 
             <TextView
@@ -146,26 +147,28 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/workoutCategories"
                 android:layout_marginTop="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:orientation="horizontal"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnrecommendation"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_weight="1"
                     android:backgroundTint="@android:color/holo_orange_dark"
                     android:fontFamily="sans-serif"
-                    android:text="GEt Recommendation "
+                    android:text="Get Recommendation "
                     android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/btnPosture"
-                    android:layout_width="184dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_weight="1"
                     android:backgroundTint="@android:color/holo_orange_dark"
                     android:fontFamily="sans-serif"
                     android:text="Get Posture Correct "
@@ -174,7 +177,7 @@
 
             <ImageView
                 android:id="@+id/bottomImage"
-                android:layout_width="330dp"
+                android:layout_width="match_parent"
                 android:layout_height="126dp"
                 android:layout_below="@id/categoryButtons"
                 android:layout_centerHorizontal="true"
@@ -205,8 +208,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#E4E2E2"
+        android:background="@color/NavBar"
         app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="?android:textColorPrimary"
         app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

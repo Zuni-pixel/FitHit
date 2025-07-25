@@ -20,4 +20,5 @@
     <color name="progress_medium">#FFC107</color>
     <color name="progress_high">#2196F3</color>
     <color name="progress_complete">#4CAF50</color>
+    <color name="NavBar">#E4E2E2</color>
 </resources>

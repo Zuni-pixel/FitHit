@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         // Initialize Views
-        skipButton = findViewById(R.id.skipButton);
+        skipButton = findViewById(R.id.skipBtn);
 
 
         // Skip Button Click Listener
@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
         });
 
         // Next Button Click Listener
-        findViewById(R.id.nextButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SplashActivity.this, SignActivity.class);

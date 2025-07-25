@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <!-- Background Image -->
+
     <ImageView
         android:id="@+id/splash1"
         android:layout_width="match_parent"
@@ -11,61 +12,73 @@
         android:scaleType="centerCrop"
         android:src="@drawable/splash_1" />
 
-    <ImageView
-    android:id="@+id/logoImage"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:layout_marginStart="160dp"
-    android:layout_marginTop="154dp"
-    android:src="@drawable/logo" />
+    <LinearLayout
+        android:id="@+id/logo_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-<TextView
-android:id="@+id/welcomeText"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_alignParentTop="true"
-android:layout_centerHorizontal="true"
-android:layout_marginTop="370dp"
-android:text="Welcome To Fit Hit"
-android:textSize="40sp"
-android:textColor="#FFA500"
-android:textStyle="bold"
-android:fontFamily="sans-serif-medium" />
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginEnd="140dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:shadowColor="@color/bottom_sheet_text_color"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="10"
+            android:text="Welcome To FitHit"
+            android:textColor="@color/main"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <!-- ViewPager -->
 
     <!-- Bottom Navigation (Skip and Next) -->
-<LinearLayout
-android:id="@+id/bottomNavigation"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_alignParentBottom="true"
-android:orientation="horizontal"
-android:padding="16dp"
-android:gravity="center">
+    <LinearLayout
+        android:id="@+id/bottomNavi"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-<TextView
-    android:id="@+id/skipButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Skip"
-    android:textColor="#FFFFFF"
-    android:textSize="16sp"
-    android:padding="16dp"
-    android:layout_weight="1"
-    android:gravity="start" />
+        <TextView
+            android:id="@+id/skipBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="start"
+            android:padding="16dp"
+            android:text="Skip"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
-<TextView
-    android:id="@+id/nextButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Next"
-    android:textColor="#FFFFFF"
-    android:textSize="16sp"
-    android:padding="16dp"
-    android:layout_weight="1"
-    android:gravity="end" />
-</LinearLayout>
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/nextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:padding="16dp"
+            android:text="Next"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

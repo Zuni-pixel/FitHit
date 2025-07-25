@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Declare features -->
-    <uses-feature android:name="android.hardware.camera" /> <!-- Declare permissions -->
+    <uses-feature android:name="android.hardware.camera" />
+
+    <!-- Declare permissions -->
     <uses-feature android:name="android.hardware.sensor.stepcounter" />
     <uses-feature android:name="android.hardware.sensor.heartrate" />
-
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -21,9 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:targetApi="31">
-        <activity
-            android:name=".MoodSelectionActivity"
-            android:exported="false" />
+        <activity android:name=".BadgesActivity"></activity>
+        <activity android:name=".CommunityActivity"/>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".LeaderboardActivity" />
+        <activity android:name=".ChallengeActivity" />
+
         <activity
             android:name=".WorkoutSuggestionActivity"
             android:exported="false" />
@@ -31,18 +36,19 @@
             android:name=".AddHealthDataActivity"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.Light.Dialog" />
-        <activity android:name=".BadgesActivity" />
-        <activity android:name=".CommunityActivity" />
-        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".HealthDashboardActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="false" />
         <activity
             android:name=".RecommendationActivity"
             android:exported="false" />
+
         <activity
             android:name=".HomeActivity"
             android:exported="false" />
+
+
         <activity
             android:name=".goalInfoActivity"
             android:exported="false" />
@@ -64,6 +70,18 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".selectExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PostureActivity"
+            android:exported="false"
+            android:label="Posture Correction"
+            android:launchMode="standard"/>
+        <activity
+            android:name=".ResultsActivity"
+            android:exported="false"
+            android:launchMode="standard"/>
         <activity
             android:name=".SplashActivity"
             android:exported="true">

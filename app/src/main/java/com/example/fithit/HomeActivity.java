@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -104,8 +105,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btnPosture).setOnClickListener(v ->
-                Toast.makeText(this, "Posture Correct selected!", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.btnPosture).setOnClickListener(v -> {
+            // Verify this targets YOUR feature's activity (not SplashActivity)
+            Intent intent = new Intent(this, selectExerciseActivity.class);
+            startActivity(intent);
+        });
+
         bellIcon.setOnClickListener(v ->
                 Toast.makeText(this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
         );

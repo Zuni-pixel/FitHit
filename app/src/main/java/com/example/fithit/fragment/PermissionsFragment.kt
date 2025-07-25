@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.postureV2.fragment
+package com.example.fithit.fragment
 
 import android.Manifest
 import android.content.Context
@@ -23,9 +23,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
-import com.example.postureV2.R
+import com.example.fithit.R
+import kotlinx.coroutines.launch
 
 private val PERMISSIONS_REQUIRED = arrayOf(Manifest.permission.CAMERA)
 
@@ -67,6 +70,20 @@ class PermissionsFragment : Fragment() {
             }
         }
     }
+
+//    private fun navigateToCamera() {
+//        // Get the viewLifecycleOwner safely
+//        val viewLifecycleOwner = viewLifecycleOwner
+//
+//        // Create the coroutine properly
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            // Use repeatOnLifecycle with proper context
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                val navController = Navigation.findNavController(requireActivity(), R.id.fragment_container)
+//                navController.navigate(R.id.action_permissions_to_camera)
+//            }
+//        }
+//    }
 
     private fun navigateToCamera() {
         lifecycleScope.launchWhenStarted {

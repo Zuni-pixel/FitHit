@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.postureV2.fragment
+package com.example.fithit.fragment
 
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -31,9 +31,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.postureV2.MainViewModel
-import com.example.postureV2.PoseLandmarkerHelper
-import com.example.postureV2.databinding.FragmentGalleryBinding
+import com.example.fithit.MainViewModel
+import com.example.fithit.PoseLandmarkerHelper
+import com.example.fithit.databinding.FragmentGalleryBinding
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import java.util.*
 import java.util.concurrent.Executors

@@ -3,6 +3,7 @@ package com.example.fithit;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -14,9 +15,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    Button btnChangeProfileData;
+
+
     private Switch switchDarkMode, switchNotifications;
     private Button btnChangePassword;
     private Button btnLogout;
+
+
 
     private TextView userEmailTextView;
     private SharedPreferences sharedPreferences;
@@ -35,12 +41,21 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+
         // Initialize UI elements
         userEmailTextView = findViewById(R.id.userEmailTextView);
         switchDarkMode = findViewById(R.id.switchDarkMode);
         switchNotifications = findViewById(R.id.switchNotifications);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnLogout = findViewById(R.id.btnLogout);
+        btnChangeProfileData = findViewById(R.id.btnChangeProfileData);
+
+        btnChangeProfileData.setOnClickListener(v -> {
+            Intent intent = new Intent(SettingsActivity.this, HeightDiseasesActivity.class);
+            startActivity(intent);
+        });
+
+
 
         // Get current user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

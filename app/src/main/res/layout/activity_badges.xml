@@ -31,7 +31,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:id="@+id/layoutExercises"
@@ -76,6 +76,16 @@
             android:backgroundTint="#FF9800"
             android:text="Leaderboard"
             android:textColor="@android:color/white" />
+        <Button
+            android:id="@+id/btnChallenge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Challenge a Friend"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FF9800"
+            android:textColor="@android:color/white"/>
+
 
 
 

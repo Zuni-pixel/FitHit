@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Button btnChangeHealthData;
+    Button btnChangeProfileData;
 
 
     private Switch switchDarkMode, switchNotifications;
@@ -48,9 +48,9 @@ public class SettingsActivity extends AppCompatActivity {
         switchNotifications = findViewById(R.id.switchNotifications);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnLogout = findViewById(R.id.btnLogout);
-        btnChangeHealthData = findViewById(R.id.btnChangeHealthData);
+        btnChangeProfileData = findViewById(R.id.btnChangeHealthData);
 
-        btnChangeHealthData.setOnClickListener(v -> {
+        btnChangeProfileData.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, HeightDiseasesActivity.class);
             startActivity(intent);
         });

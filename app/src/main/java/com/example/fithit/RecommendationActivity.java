@@ -1,8 +1,11 @@
 package com.example.fithit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +38,21 @@ public class RecommendationActivity extends AppCompatActivity {
         tvDiet = findViewById(R.id.bulletPoint2);
         tvEquipment = findViewById(R.id.bulletPoint3);
         tvSets = findViewById(R.id.bulletPoint4);
+
+        // Home button setup
+        Button homeButton = findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to HomeActivity
+                finish(); // This will close the current activity and return to the previous one (HomeActivity)
+
+                // Alternatively, if you want to explicitly start HomeActivity:
+                Intent intent = new Intent(RecommendationActivity.this, HomeActivity.class);
+                 startActivity(intent);
+                finish();
+            }
+        });
 
         try {
             // 1. Load configuration data (can load more than MODEL_OUTPUT_CLASSES entries)
@@ -197,10 +215,10 @@ public class RecommendationActivity extends AppCompatActivity {
         }
 
         // 4. Update UI
-        tvExercise.setText("Exercise: " + recommendation[0]);
-        tvDiet.setText("Diet: " + recommendation[1]);
-        tvEquipment.setText("Equipment: " + recommendation[2]);
-        tvSets.setText("Sets: " + recommendation[3]);
+        tvExercise.setText("\uD83C\uDFCB\uFE0FExercise: " + recommendation[0]);
+        tvDiet.setText("\uD83E\uDD57Diet: " + recommendation[1]);
+        tvEquipment.setText("\uD83D\uDEE0\uFE0FEquipment: " + recommendation[2]);
+        tvSets.setText("\uD83D\uDCAA Sets: " + recommendation[3]);
     }
 
     private String generateSetsDescription(int classIndex) {

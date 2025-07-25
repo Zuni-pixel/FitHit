@@ -16,4 +16,8 @@
     <color name="icPressed">#AAFFFFFF</color>
     <color name="main">#FEB062</color>
     <color name="secondary">#6298FE</color>
+    <color name="progress_low">#FF5722</color>
+    <color name="progress_medium">#FFC107</color>
+    <color name="progress_high">#2196F3</color>
+    <color name="progress_complete">#4CAF50</color>
 </resources>

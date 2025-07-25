@@ -1,5 +1,7 @@
 package com.example.fithit;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +17,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BadgesActivity extends AppCompatActivity {
 
@@ -29,8 +33,15 @@ public class BadgesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_badges);
+        Button btnLeaderboard = findViewById(R.id.btnLeaderboard);
+        btnLeaderboard.setOnClickListener(v -> {
+            Intent intent = new Intent(BadgesActivity.this, LeaderboardActivity.class);
+            startActivity(intent);
+        });
+
 
         recyclerView = findViewById(R.id.recyclerViewBadges);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -95,6 +106,7 @@ public class BadgesActivity extends AppCompatActivity {
     private void loadBadgesFromSnapshot(DataSnapshot snapshot) {
         badgeList.clear();
 
+        String userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         Long exercisesCompleted = snapshot.child("exercisesCompleted").getValue(Long.class);
         Boolean postureDone = snapshot.child("postureDone").getValue(Boolean.class);
         Long loginStreak = snapshot.child("loginStreak").getValue(Long.class);
@@ -116,6 +128,9 @@ public class BadgesActivity extends AppCompatActivity {
         }
 
         badgeAdapter.notifyDataSetChanged();
+        // ✅ Add leaderboard entry
+        updateLeaderboard(userEmail, exercisesCompleted != null ? exercisesCompleted.intValue() : 0);
+
     }
 
     // ✅ Hardcoded exercise section with click-to-complete logic
@@ -162,6 +177,20 @@ public class BadgesActivity extends AppCompatActivity {
 
         layoutCoins.addView(coinImage);
         layoutCoins.addView(rewardText);
+    }
+    // ✅ 🔄 This method updates leaderboard node in Firebase
+    private void updateLeaderboard(String userEmail, int exercisesCompleted) {
+        DatabaseReference leaderboardRef = FirebaseDatabase.getInstance().getReference("Leaderboard");
+
+        String userKey = userEmail.replace(".", "_");
+        int score = exercisesCompleted * 10;
+
+        Map<String, Object> leaderboardData = new HashMap<>();
+        leaderboardData.put("email", userEmail);
+        leaderboardData.put("exercisesCompleted", exercisesCompleted);
+        leaderboardData.put("score", score);
+
+        leaderboardRef.child(userKey).setValue(leaderboardData);
     }
 }
 

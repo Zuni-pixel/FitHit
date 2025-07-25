@@ -67,5 +67,17 @@
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btnLeaderboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FF9800"
+            android:text="Leaderboard"
+            android:textColor="@android:color/white" />
+
+
+
     </LinearLayout>
 </ScrollView>

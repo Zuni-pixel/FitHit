@@ -74,51 +74,34 @@ public class HomeActivity extends AppCompatActivity {
 
         NotificationScheduler.scheduleNotifications(this);
 
-        greeting = findViewById(R.id.greeting1);
+
         TextView workoutDescription = findViewById(R.id.workoutDescription);
         ImageView workoutImage = findViewById(R.id.middleImage);
         TextView dateText = findViewById(R.id.dateText);
         ImageView bellIcon = findViewById(R.id.bellIcon);
-
-        // Load user name
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            DatabaseReference userRef = FirebaseDatabase.getInstance()
-                    .getReference("Users")
-                    .child(currentUser.getUid());
-
-            userRef.child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    String userName = snapshot.getValue(String.class);
-                    greeting.setText(userName != null ? userName : "Welcome");
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    greeting.setText("Welcome");
-                }
-            });
-        } else {
-            greeting.setText("Welcome");
-        }
 
         // Date
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         dateText.setText(dateFormat.format(currentDate));
 
-        workoutDescription.setText("Day 1 - Cardio");
+        workoutDescription.setText("Day 1 - Squat");
         workoutImage.setImageResource(R.drawable.sample_image);
 
         // Button Clicks
+        findViewById(R.id.btnHealth).setOnClickListener(v -> {
+            try {
+                startActivity(new Intent(HomeActivity.this, HealthDashboardActivity.class));
+            } catch (Exception e) {
+                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // Button Clicks
         findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
-            } else {
-                startActivity(new Intent(this, RecommendationActivity.class));
+            try {
+                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
+            } catch (Exception e) {
+                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,15 +115,6 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
         );
 
-        findViewById(R.id.btnHealth).setOnClickListener(v -> {
-            if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-                startActivity(new Intent(this, SplashActivity.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                finish();
-            } else {
-                startActivity(new Intent(this, HealthDashboardActivity.class));
-            }
-        });
 
         // ✅ Bottom Navigation (placed correctly INSIDE onCreate)
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -150,7 +124,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "You're already on Home 🏠", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
-                startActivity(new Intent(HomeActivity.this, selectExerciseActivity.class));
+                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

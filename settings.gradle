@@ -7,7 +7,7 @@ pluginManagement {
                 includeGroupByRegex("androidx.*")
             }
         }
-        jcenter()
+        mavenCentral()
         gradlePluginPortal()
     }
 }
@@ -16,9 +16,8 @@ dependencyResolutionManagement {
     repositories {
         maven { url 'https://jitpack.io' }  // Required for HelloCharts
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }  // Required for HelloCharts
         mavenCentral()
+        jcenter()
     }
 }
 

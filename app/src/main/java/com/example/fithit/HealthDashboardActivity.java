@@ -1,283 +1,278 @@
 package com.example.fithit;
 
-import android.Manifest;
+import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HealthDashboardActivity extends AppCompatActivity implements SensorEventListener {
 
-    private static final int REQUEST_ACTIVITY_RECOGNITION = 1;
-    private static final int REQUEST_BODY_SENSORS = 2;
-
-    private TextView tvSteps, tvHeartRate, tvBloodPressure;
-    private BarChart stepChart;
-    private LineChart heartRateChart;
-    private MaterialButton btnAddData;
-
-    private SensorManager sensorManager;
-    private Sensor stepCounterSensor, heartRateSensor;
-    private int stepCount = 0;
+    // Health Metrics
+    private int steps = 0;
+    private int waterGlasses = 0;
+    private int calories = 0;
     private int heartRate = 0;
-    private String bloodPressure = "120/80";
+    private float sleepHours = 0;
+    private String bloodPressure = "--/--";
+
+    // Sensors
+    private SensorManager sensorManager;
+    private Sensor stepCounterSensor;
+    private Sensor heartRateSensor;
+
+    // UI Components
+    private TextView tvSteps, tvWater, tvCalories, tvHeartRate, tvSleep, tvBloodPressure;
+    private TextView tvActivityStatus, tvMotivationalQuote, tvInteractiveTip;
+    private ProgressBar pbActivityProgress;
+    private Button btnAddManual, btnDailySummary;
+    private ImageView ivPulseAnimation;
+
+    // Activity tracking
+    private int dailyGoal = 10000;
+    private String[] motivationalQuotes = {
+            "Every step counts! Keep going!",
+            "You're closer to your goal than yesterday!",
+            "Small progress is still progress!",
+            "Your health is your wealth!",
+            "Stay hydrated and keep moving!"
+    };
+
+    private String[] healthTips = {
+            "Tip: Drink water first thing in the morning",
+            "Tip: Take short breaks to walk every hour",
+            "Tip: Deep breathing reduces stress",
+            "Tip: 7-8 hours sleep boosts metabolism",
+            "Tip: Stretch every 90 minutes"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_dashboard);
 
-        // Initialize views
+        initViews();
+        setupSensors();
+        setupInteractiveElements();
+        updateAllMetrics();
+        setupButtons();
+        startMotivationalQuoteCycle();
+    }
+
+    private void initViews() {
         tvSteps = findViewById(R.id.tvSteps);
+        tvWater = findViewById(R.id.tvWater);
+        tvCalories = findViewById(R.id.tvCalories);
         tvHeartRate = findViewById(R.id.tvHeartRate);
+        tvSleep = findViewById(R.id.tvSleep);
         tvBloodPressure = findViewById(R.id.tvBloodPressure);
-        stepChart = findViewById(R.id.stepChart);
-        heartRateChart = findViewById(R.id.heartRateChart);
-        btnAddData = findViewById(R.id.btnAddData);
+        tvActivityStatus = findViewById(R.id.tvActivityStatus);
+        tvMotivationalQuote = findViewById(R.id.tvMotivationalQuote);
+        tvInteractiveTip = findViewById(R.id.tvInteractiveTip);
+        pbActivityProgress = findViewById(R.id.pbActivityProgress);
+        ivPulseAnimation = findViewById(R.id.ivPulseAnimation);
+        btnAddManual = findViewById(R.id.btnAddManual);
+        btnDailySummary = findViewById(R.id.btnDailySummary);
+    }
 
-        // Initialize sensor manager
+    private void setupSensors() {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
 
-        // Check and request permissions
-        checkPermissions();
-
-        // Setup charts
-        setupStepChart();
-        setupHeartRateChart();
-
-        // Button click listener
-        btnAddData.setOnClickListener(v -> {
-            Intent intent = new Intent(HealthDashboardActivity.this, AddHealthDataActivity.class);
-            startActivityForResult(intent, 100);
-        });
-
-        // Load sample data (replace with your actual data loading logic)
-        loadSampleData();
-    }
-
-    private void checkPermissions() {
-        // Check for activity recognition permission (for step counter)
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACTIVITY_RECOGNITION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
-                    REQUEST_ACTIVITY_RECOGNITION);
-        }
-
-        // Check for body sensors permission (for heart rate)
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.BODY_SENSORS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.BODY_SENSORS},
-                    REQUEST_BODY_SENSORS);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_ACTIVITY_RECOGNITION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                registerStepSensor();
-            } else {
-                Toast.makeText(this, "Step counter requires activity recognition permission", Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == REQUEST_BODY_SENSORS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                registerHeartRateSensor();
-            } else {
-                Toast.makeText(this, "Heart rate monitoring requires body sensors permission", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void registerStepSensor() {
-        if (sensorManager != null) {
-            stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-            if (stepCounterSensor != null) {
-                sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            } else {
-                Toast.makeText(this, "No step counter sensor found", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void registerHeartRateSensor() {
-        if (sensorManager != null) {
-            heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-            if (heartRateSensor != null) {
-                sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            } else {
-                Toast.makeText(this, "No heart rate sensor found", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void setupStepChart() {
-        // Configure step chart appearance
-        stepChart.getDescription().setEnabled(false);
-        stepChart.setDrawGridBackground(false);
-        stepChart.setDrawBarShadow(false);
-        stepChart.setPinchZoom(false);
-        stepChart.setDrawValueAboveBar(true);
-
-        XAxis xAxis = stepChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f);
-        xAxis.setLabelCount(7);
-
-        stepChart.getAxisLeft().setEnabled(true);
-        stepChart.getAxisRight().setEnabled(false);
-        stepChart.getLegend().setEnabled(false);
-    }
-
-    private void setupHeartRateChart() {
-        // Configure heart rate chart appearance
-        heartRateChart.getDescription().setEnabled(false);
-        heartRateChart.setDrawGridBackground(false);
-        heartRateChart.setPinchZoom(false);
-
-        XAxis xAxis = heartRateChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f);
-        xAxis.setLabelCount(5);
-
-        heartRateChart.getAxisLeft().setEnabled(true);
-        heartRateChart.getAxisRight().setEnabled(false);
-        heartRateChart.getLegend().setEnabled(false);
-    }
-
-    private void loadSampleData() {
-        // Sample step data for last 7 days
-        List<BarEntry> stepEntries = new ArrayList<>();
-        stepEntries.add(new BarEntry(0, 4523));
-        stepEntries.add(new BarEntry(1, 6872));
-        stepEntries.add(new BarEntry(2, 5231));
-        stepEntries.add(new BarEntry(3, 7890));
-        stepEntries.add(new BarEntry(4, 6543));
-        stepEntries.add(new BarEntry(5, 8321));
-        stepEntries.add(new BarEntry(6, 5678));
-
-        BarDataSet stepDataSet = new BarDataSet(stepEntries, "Steps");
-        stepDataSet.setColor(getResources().getColor(R.color.primary));
-        stepDataSet.setValueTextColor(getResources().getColor(R.color.black));
-        stepDataSet.setValueTextSize(10f);
-
-        BarData stepData = new BarData(stepDataSet);
-        stepChart.setData(stepData);
-
-        // Set day labels
-        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        stepChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(days));
-        stepChart.invalidate();
-
-        // Sample heart rate data
-        List<Entry> hrEntries = new ArrayList<>();
-        hrEntries.add(new Entry(0, 72));
-        hrEntries.add(new Entry(1, 75));
-        hrEntries.add(new Entry(2, 68));
-        hrEntries.add(new Entry(3, 80));
-        hrEntries.add(new Entry(4, 77));
-        hrEntries.add(new Entry(5, 71));
-        hrEntries.add(new Entry(6, 74));
-
-        LineDataSet hrDataSet = new LineDataSet(hrEntries, "Heart Rate");
-        hrDataSet.setColor(getResources().getColor(R.color.red));
-        hrDataSet.setCircleColor(getResources().getColor(R.color.red));
-        hrDataSet.setLineWidth(2f);
-        hrDataSet.setCircleRadius(4f);
-        hrDataSet.setValueTextColor(getResources().getColor(R.color.black));
-        hrDataSet.setValueTextSize(10f);
-
-        LineData hrData = new LineData(hrDataSet);
-        heartRateChart.setData(hrData);
-        heartRateChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(new String[]{"9AM", "12PM", "3PM", "6PM", "9PM", "12AM", "3AM"}));
-        heartRateChart.invalidate();
-
-        // Set today's values
-        tvSteps.setText(String.valueOf(stepEntries.get(6).getY()));
-        tvHeartRate.setText(String.valueOf(hrEntries.get(6).getY()));
-        tvBloodPressure.setText(bloodPressure);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            stepCount = (int) event.values[0];
-            tvSteps.setText(String.valueOf(stepCount));
-        } else if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
-            heartRate = (int) event.values[0];
-            tvHeartRate.setText(String.valueOf(heartRate));
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Handle accuracy changes if needed
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Re-register sensors when activity resumes
         if (stepCounterSensor != null) {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
+            tvActivityStatus.setText("Step counter not available");
         }
+
         if (heartRateSensor != null) {
             sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Unregister sensors to save battery when activity is paused
-        sensorManager.unregisterListener(this);
+    private void setupInteractiveElements() {
+        // Set up pulse animation
+        startPulseAnimation();
+
+        // Set up click listener for interactive tip
+        tvInteractiveTip.setOnClickListener(v -> {
+            Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+            tvInteractiveTip.startAnimation(shake);
+            showRandomHealthTip();
+        });
+    }
+
+    private void startPulseAnimation() {
+        ValueAnimator animator = ValueAnimator.ofFloat(0.8f, 1.2f);
+        animator.setDuration(1000);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            ivPulseAnimation.setScaleX(value);
+            ivPulseAnimation.setScaleY(value);
+        });
+        animator.start();
+    }
+
+    private void showRandomHealthTip() {
+        int randomIndex = (int)(Math.random() * healthTips.length);
+        tvInteractiveTip.setText(healthTips[randomIndex]);
+
+        Animation flash = AnimationUtils.loadAnimation(this, R.anim.flash);
+        tvInteractiveTip.startAnimation(flash);
+    }
+
+    private void updateAllMetrics() {
+        tvSteps.setText(String.valueOf(steps));
+        tvWater.setText(String.valueOf(waterGlasses));
+
+        // Auto-calculate calories (approx 0.04 calories per step)
+        calories = (int)(steps * 0.04);
+        tvCalories.setText(String.valueOf(calories));
+
+        tvHeartRate.setText(heartRate == 0 ? "--" : String.valueOf(heartRate));
+        tvSleep.setText(sleepHours == 0 ? "--" : String.format("%.1f", sleepHours));
+        tvBloodPressure.setText(bloodPressure);
+
+        // Update activity progress
+        updateActivityStatus();
+    }
+
+    private void updateActivityStatus() {
+        int progress = (int)((steps * 100f) / dailyGoal);
+        pbActivityProgress.setProgress(progress > 100 ? 100 : progress);
+
+        if (steps == 0) {
+            tvActivityStatus.setText("Start moving to begin tracking!");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_low));
+        } else if (steps < dailyGoal/2) {
+            tvActivityStatus.setText("Keep going! You're making progress");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_medium));
+        } else if (steps < dailyGoal) {
+            tvActivityStatus.setText("Almost there! You can do it!");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_high));
+        } else {
+            tvActivityStatus.setText("Goal achieved! Excellent work!");
+            pbActivityProgress.setProgressTintList(ContextCompat.getColorStateList(this, R.color.progress_complete));
+        }
+    }
+
+    private void startMotivationalQuoteCycle() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            int currentIndex = 0;
+            @Override
+            public void run() {
+                tvMotivationalQuote.setText(motivationalQuotes[currentIndex]);
+                currentIndex = (currentIndex + 1) % motivationalQuotes.length;
+                handler.postDelayed(this, 10000); // Change every 10 seconds
+            }
+        }, 1000);
+    }
+
+    private void setupButtons() {
+        btnAddManual.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddHealthDataActivity.class);
+            intent.putExtra("currentSteps", steps);
+            intent.putExtra("currentWater", waterGlasses);
+            intent.putExtra("currentHeartRate", heartRate);
+            intent.putExtra("currentSleep", sleepHours);
+            intent.putExtra("currentBloodPressure", bloodPressure);
+            startActivityForResult(intent, 1);
+        });
+
+        btnDailySummary.setOnClickListener(v -> generateDailySummary());
+    }
+
+    private void generateDailySummary() {
+        StringBuilder summary = new StringBuilder("Today's Health Summary:\n\n");
+
+        summary.append("Steps: ").append(steps).append(" (")
+                .append(String.format("%.1f%%", (steps * 100f) / dailyGoal)).append(" of goal)\n");
+        summary.append("Water Intake: ").append(waterGlasses).append(" glasses\n");
+        summary.append("Calories Burned: ").append(calories).append("\n");
+
+        if (heartRate > 0) {
+            summary.append("\nHeart Rate: ").append(heartRate).append(" BPM\n");
+        }
+
+        if (sleepHours > 0) {
+            summary.append("Sleep: ").append(String.format("%.1f", sleepHours)).append(" hours\n");
+        }
+
+        if (!bloodPressure.equals("--/--")) {
+            summary.append("\nBlood Pressure: ").append(bloodPressure).append(" mmHg\n");
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Daily Health Report")
+                .setMessage(summary)
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            // Handle manual data entry
-            String bp = data.getStringExtra("blood_pressure");
-            String hr = data.getStringExtra("heart_rate");
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            steps = data.getIntExtra("steps", steps);
+            waterGlasses = data.getIntExtra("water", waterGlasses);
+            heartRate = data.getIntExtra("heartRate", heartRate);
+            sleepHours = data.getFloatExtra("sleep", sleepHours);
+            bloodPressure = data.getStringExtra("bloodPressure");
 
-            if (bp != null) {
-                bloodPressure = bp;
-                tvBloodPressure.setText(bp);
-            }
-            if (hr != null) {
-                heartRate = Integer.parseInt(hr);
-                tvHeartRate.setText(hr);
-            }
+            updateAllMetrics();
+            Toast.makeText(this, "Health data updated!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            steps = (int) event.values[0];
+            updateAllMetrics();
+        } else if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
+            heartRate = (int) event.values[0];
+            updateAllMetrics();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Handle accuracy changes
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (stepCounterSensor != null) {
+            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        if (heartRateSensor != null) {
+            sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 }

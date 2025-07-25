@@ -30,7 +30,7 @@
         <activity android:name=".ChallengeActivity" />
 
         <activity
-            android:name=".WorkoutSuggestionActivity"
+            android:name=".MoodSelectionActivity"
             android:exported="false" />
         <activity
             android:name=".AddHealthDataActivity"

@@ -2,10 +2,6 @@ package com.example.fithit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,19 +14,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.example.fithit.MainViewModel;
-
-import org.w3c.dom.Text;
-
 public class PostureActivity extends AppCompatActivity {
     private MainViewModel viewModel;
-    private Spinner exerciseSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EdgeToEdge.enable(this);
+        //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_posture_detect);
         Intent intent = getIntent();
         String selectedExercise = intent.getStringExtra("selected_option");
@@ -50,31 +41,6 @@ public class PostureActivity extends AppCompatActivity {
 
         assert selectedExercise != null;
         viewModel.setExercise(this, selectedExercise);
-    }
-
-    private void setupExerciseSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.exercises_for_posture,
-                android.R.layout.simple_spinner_item
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        exerciseSpinner.setAdapter(adapter);
-
-        exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedExercise = parent.getItemAtPosition(position).toString();
-                viewModel.resetExerciseState();
-                viewModel.setExercise(selectedExercise);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Default to jumping jacks
-                viewModel.setExercise("Jumping Jacks");
-            }
-        });
     }
 
     private void observeViewModel() {

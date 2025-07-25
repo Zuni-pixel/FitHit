@@ -46,10 +46,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/NavBar"
             android:hint="Type your message..."
             android:padding="10dp"
-            android:background="@color/NavBar"
-            android:textColor="#000000"
+            android:textColor="?android:textColorPrimary"
             android:textSize="16sp" />
 
         <Button

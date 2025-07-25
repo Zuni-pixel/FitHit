@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="NavBar">#0B0B0B</color>
+    <color name="NavBar">#161616</color>
+    <color name="messageBox">#3A3A3A</color>
+    <color name="text_color">#FFFFFF</color>
+    <color name="btnTextColor">#000000</color>
+    <color name="CardColor">#5A141414</color>
+    <color name="CardColor2">#423732</color>
+    <color name="edit_text_color">#454545</color>
 </resources>

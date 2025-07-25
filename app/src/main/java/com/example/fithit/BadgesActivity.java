@@ -41,6 +41,12 @@ public class BadgesActivity extends AppCompatActivity {
             Intent intent = new Intent(BadgesActivity.this, LeaderboardActivity.class);
             startActivity(intent);
         });
+        Button btnChallenge = findViewById(R.id.btnChallenge);
+        btnChallenge.setOnClickListener(v -> {
+            Intent intent = new Intent(BadgesActivity.this, ChallengeActivity.class);
+            startActivity(intent);
+        });
+
 
 
         recyclerView = findViewById(R.id.recyclerViewBadges);

@@ -32,10 +32,9 @@
         <activity
             android:name=".AddHealthDataActivity"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.Light.Dialog" />
+        />
         <activity
             android:name=".HealthDashboardActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".RecommendationActivity"

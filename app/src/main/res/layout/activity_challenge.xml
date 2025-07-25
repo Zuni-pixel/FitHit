@@ -17,10 +17,11 @@
         android:id="@+id/btnSendChallenge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Challenge"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#FF9800"
-        android:textColor="@android:color/white"/>
+        android:background="@drawable/button_background"
+        android:padding="10dp"
+        android:text="Send Challenge"
+        android:textColor="@color/btnTextColor" />
 
     <TextView
         android:id="@+id/tvResult"

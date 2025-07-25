@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/postureCorrection"
-                android:textColor="@color/white"
+                android:textColor="@color/btnTextColor"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="181dp"
@@ -59,50 +59,49 @@
 
 
         <View
-            android:id="@+id/poseResults"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_below="@id/poseResults2"
-            android:background="@color/icPressed" />
-
-        <View
             android:id="@+id/poseResults2"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_below="@+id/toolbar"
-            android:layout_marginTop="2dp"
-            android:background="@color/icPressed" />
+            android:layout_marginTop="2dp" />
 
-        <Button
-            android:id="@+id/btnComplete"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/poseResults"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="1dp"
-            android:backgroundTint="@color/main"
-            android:text="Complete Exercise"
-            android:textSize="12sp" />
+        <LinearLayout
+            android:id="@+id/postureBtns"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignTop="@id/poseResults2"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/seeDetails"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/poseResults"
-            android:layout_alignRight="@id/poseResults"
-            android:layout_marginTop="1dp"
-            android:layout_marginRight="14dp"
-            android:backgroundTint="@color/main"
-            android:text="No Exercise Detected"
-            android:textSize="12sp" />
+            <Button
+                android:id="@+id/btnComplete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="Complete Exercise"
+                android:textColor="@color/btnTextColor"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/seeDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="No Exercise Detected"
+                android:textColor="@color/btnTextColor"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/poseResults"
+            android:layout_below="@id/postureBtns"
             android:background="@android:color/transparent"
             android:keepScreenOn="true"
             app:defaultNavHost="true"
@@ -115,9 +114,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/poseResults2"
             android:paddingTop="5dp"
-            android:textAlignment="center"
             android:text="No selected exercise..."
-            />
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary" />
 
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

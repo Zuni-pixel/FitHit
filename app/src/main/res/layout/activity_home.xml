@@ -38,7 +38,7 @@
                 android:layout_toEndOf="@id/appName"
                 android:fontFamily="sans-serif"
                 android:text="Hit"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@color/main"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -82,13 +82,13 @@
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="16 March 2025"
-                android:textSize="16sp"
                 android:layout_alignBaseline="@id/todaysWorkoutPlan"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
-                android:textColor="@android:color/holo_orange_dark"
-                android:fontFamily="sans-serif" />
+                android:fontFamily="sans-serif"
+                android:text="16 March 2025"
+                android:textColor="@color/main"
+                android:textSize="16sp" />
 
             <!-- Top Image -->
             <ImageView
@@ -132,13 +132,13 @@
                 android:id="@+id/seeAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select One"
-                android:textSize="18sp"
                 android:layout_alignBaseline="@id/workoutCategories"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="16dp"
-                android:textColor="@android:color/holo_orange_dark"
-                android:fontFamily="sans-serif" />
+                android:fontFamily="sans-serif"
+                android:text="Select One"
+                android:textColor="@color/main"
+                android:textSize="18sp" />
 
             <!-- Category Buttons -->
             <LinearLayout
@@ -157,10 +157,10 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginEnd="7dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@android:color/holo_orange_dark"
+                    android:background="@drawable/button_background"
                     android:fontFamily="sans-serif"
                     android:text="Get Recommendation "
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/btnTextColor" />
 
                 <Button
                     android:id="@+id/btnPosture"
@@ -169,10 +169,10 @@
                     android:layout_marginStart="7dp"
                     android:layout_marginEnd="7dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@android:color/holo_orange_dark"
+                    android:background="@drawable/button_background"
                     android:fontFamily="sans-serif"
                     android:text="Get Posture Correct "
-                    android:textColor="@android:color/white" />
+                    android:textColor="@color/btnTextColor" />
             </LinearLayout>
 
             <ImageView
@@ -195,10 +195,11 @@
                 android:layout_below="@id/bottomImage"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@android:color/holo_orange_dark"
                 android:fontFamily="sans-serif"
                 android:text="Health Dashboard"
-                android:textColor="@android:color/white" />
+                android:textColor="@color/btnTextColor"
+                android:background="@drawable/button_background"
+                android:padding="10dp"/>
         </RelativeLayout>
     </ScrollView>
 

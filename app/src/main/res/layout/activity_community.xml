@@ -4,33 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/NavBar">
 
     <!-- Top Title -->
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Community Chat"
-        android:textSize="22sp"
-        android:textStyle="bold"
+        android:background="@drawable/button_background"
+        android:elevation="4dp"
         android:gravity="center"
         android:padding="12dp"
-        android:textColor="#333333"
-        android:background="#FF9800"
-        android:elevation="4dp" />
+        android:text="Community Chat"
+        android:textColor="@color/btnTextColor"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <!-- RecyclerView for messages -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMessages"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="1dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp"
         android:padding="4dp"
-        android:scrollbars="vertical"
-        android:background="@android:color/white" />
+        android:scrollbars="vertical" />
 
     <!-- Bottom message box -->
     <LinearLayout
@@ -49,7 +48,7 @@
             android:layout_weight="1"
             android:hint="Type your message..."
             android:padding="10dp"
-            android:background="@android:color/white"
+            android:background="@color/NavBar"
             android:textColor="#000000"
             android:textSize="16sp" />
 
@@ -57,9 +56,9 @@
             android:id="@+id/buttonSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
             android:layout_marginStart="8dp"
-            android:backgroundTint="#FF9800"
-            android:textColor="#FFFFFF" />
+            android:background="@drawable/button_background"
+            android:text="Send"
+            android:textColor="@color/btnTextColor" />
     </LinearLayout>
 </LinearLayout>

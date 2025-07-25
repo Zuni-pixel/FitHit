@@ -3,83 +3,82 @@
     android:id="@+id/recommendationScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <!-- Dynamic Greeting -->
         <TextView
             android:id="@+id/recommendationGreeting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome!"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#3F51B5"
             android:layout_marginBottom="8dp"
-            android:textAlignment="center" />
+            android:text="Welcome!"
+            android:textAlignment="center"
+            android:textColor="@color/secondary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <!-- Title -->
         <TextView
             android:id="@+id/recommendationTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="🎯 Your Personalized Fitness Plan"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#FF5722"
             android:paddingBottom="20dp"
-            android:textAlignment="center" />
+            android:text="🎯 Your Personalized Fitness Plan"
+            android:textAlignment="center"
+            android:textColor="@color/main"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <!-- Recommendation Items -->
         <TextView
             android:id="@+id/bulletPoint1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🏋️ Exercise Recommendation:"
-            android:textColor="#212121"
-            android:textSize="17sp"
             android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textIsSelectable="true" />
+            android:text="🏋️ Exercise Recommendation:"
+            android:textColor="?android:textColorPrimary"
+            android:textIsSelectable="true"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bulletPoint2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🥗 Diet Plan:"
-            android:textColor="#212121"
-            android:textSize="17sp"
             android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textIsSelectable="true" />
+            android:text="🥗 Diet Plan:"
+            android:textColor="?android:textColorPrimary"
+            android:textIsSelectable="true"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bulletPoint3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🛠️ Equipment Needed:"
-            android:textColor="#212121"
-            android:textSize="17sp"
             android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textIsSelectable="true" />
+            android:text="🛠️ Equipment Needed:"
+            android:textColor="?android:textColorPrimary"
+            android:textIsSelectable="true"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/bulletPoint4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💪 Custom Exercise Sets:"
-            android:textColor="#212121"
-            android:textSize="17sp"
             android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:textIsSelectable="true" />
+            android:text="💪 Custom Exercise Sets:"
+            android:textColor="?android:textColorPrimary"
+            android:textIsSelectable="true"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <!-- Optional Loading Indicator -->
         <ProgressBar
@@ -94,11 +93,11 @@
             android:id="@+id/homeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🏠 Back to Home"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:backgroundTint="#FF9800"
             android:layout_marginTop="24dp"
-            android:padding="12dp" />
+            android:background="@drawable/button_background"
+            android:padding="12dp"
+            android:text="🏠 Back to Home"
+            android:textColor="@color/btnTextColor"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

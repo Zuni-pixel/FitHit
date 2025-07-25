@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
         switchNotifications = findViewById(R.id.switchNotifications);
         btnChangePassword = findViewById(R.id.btnChangePassword);
         btnLogout = findViewById(R.id.btnLogout);
-        btnChangeProfileData = findViewById(R.id.btnChangeHealthData);
+        btnChangeProfileData = findViewById(R.id.btnChangeProfileData);
 
         btnChangeProfileData.setOnClickListener(v -> {
             Intent intent = new Intent(SettingsActivity.this, HeightDiseasesActivity.class);

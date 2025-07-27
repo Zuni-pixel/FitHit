@@ -22,8 +22,7 @@ public class PostureActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //EdgeToEdge.enable(this);
+        
         setContentView(R.layout.activity_posture_detect);
         Intent intent = getIntent();
         String selectedExercise = intent.getStringExtra("selected_option");
@@ -81,26 +80,27 @@ public class PostureActivity extends AppCompatActivity {
     private void setupCompleteButton() {
         //button listener
         findViewById(R.id.btnComplete).setOnClickListener(v -> {
-            viewModel.getExercisePercentage().observe(this, percentage-> {
+            viewModel.getExercisePercentage().observe(this, percentage -> {
                 TextView tvReport = findViewById(R.id.btnComplete);
-                String displayResult = null;
-                if ( percentage == 0f ) {
+                String displayResult;
+
+                if (percentage == 0f) {
                     displayResult = "Did not detect (╥‸╥)";
-                } else if ( percentage < 50f) {
+                } else if (percentage < 50f) {
                     displayResult = "Bad posture (๑﹏๑//)";
-                } else if ( percentage < 70f){
+                } else if (percentage < 70f) {
                     displayResult = "Need to improve (˶ᵔ ᵕ ᵔ˶)";
-                } else if ( percentage >= 70 ) {
+                } else {
                     displayResult = "PERFECT POSTURE ⸜(｡˃ ᵕ ˂ )⸝";
-                } else { displayResult = "error"; }
+                }
+
                 tvReport.setText(displayResult);
             });
             ExerciseReport reportResults = viewModel.completeExercise();
             TextView detailsAvailable = findViewById(R.id.seeDetails);
             if (reportResults.getOverallScore() == 0f){
                 detailsAvailable.setText("No details available");
-            }
-            else{
+            } else {
                 detailsAvailable.setText("See Detailed Feedback");
                 findViewById(R.id.seeDetails).setOnClickListener(w -> {
                     viewModel.seeDetails(reportResults);

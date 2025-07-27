@@ -113,7 +113,7 @@ class MainViewModel : ViewModel() {
     }
 
     //from further onwards is the code for posture correction
-    fun jointAngles(angles: Map<String, Float>): String{
+    private fun formatJointAngles(angles: Map<String, Float>): String{
         return angles.entries.joinToString(separator = "\n") { (name, value) ->
             "     ${name.replace('_', ' ')}: ${"%.1f".format(value)}°"
             }

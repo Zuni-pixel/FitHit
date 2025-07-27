@@ -104,7 +104,7 @@ private fun calculateAngle(v1: FloatArray, v2: FloatArray): Float {
     if (mag1 < 1e-6 || mag2 < 1e-6) return Float.NaN
 
     // Calculate angle in radians
-    var angle = acos((dot / (mag1 * mag2)).toDouble())
+    val angle = acos((dot / (mag1 * mag2)).toDouble())
 
         // Convert to degrees
         return Math.toDegrees(angle).toFloat()

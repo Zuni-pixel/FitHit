@@ -38,7 +38,7 @@ class PoseLandmarkerHelper(
     var minPosePresenceConfidence: Float = DEFAULT_POSE_PRESENCE_CONFIDENCE,
     var currentModel: Int = MODEL_POSE_LANDMARKER_FULL,
     var currentDelegate: Int = DELEGATE_CPU,
-    var runningMode: RunningMode = RunningMode.LIVE_STREAM,
+    var runningMode: RunningMode = RunningMode.IMAGE,
     val context: Context,
     // this listener is only used when running in RunningMode.LIVE_STREAM
     val poseLandmarkerHelperListener: LandmarkerListener? = null
@@ -81,7 +81,14 @@ class PoseLandmarkerHelper(
             }
         }
 
-        val modelName = "pose_landmarker_lite.task"
+        val modelName =
+            when (currentModel) {
+                MODEL_POSE_LANDMARKER_FULL -> "pose_landmarker_full.task"
+                MODEL_POSE_LANDMARKER_LITE -> "pose_landmarker_lite.task"
+                MODEL_POSE_LANDMARKER_HEAVY -> "pose_landmarker_heavy.task"
+                else -> "pose_landmarker_full.task"
+            }
+
         baseOptionBuilder.setModelAssetPath(modelName)
 
         // Check if runningMode is consistent with poseLandmarkerHelperListener

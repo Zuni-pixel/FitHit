@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         signupLink.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
+            finish();
         });
 
         forgotPassword.setOnClickListener(view -> verifyAndResetPassword());

@@ -41,6 +41,7 @@ public class selectExerciseActivity extends AppCompatActivity {
                     Intent intent = new Intent(selectExerciseActivity.this, PostureActivity.class);
                     intent.putExtra("selected_option", selectedOption);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(selectExerciseActivity.this, "Please select an option", Toast.LENGTH_SHORT).show();
                 }

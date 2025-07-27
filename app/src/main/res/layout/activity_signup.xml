@@ -42,10 +42,10 @@
                 android:id="@+id/highlightText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Hit"
-                android:textSize="32sp"
-                android:textColor="#FFA500"
                 android:fontFamily="sans-serif"
+                android:text=" Hit"
+                android:textColor="@color/main"
+                android:textSize="32sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -74,9 +74,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:hint="Username*"
-                android:background="@null"
                 android:textSize="14sp"
-                android:textColor="#000000"
+                android:textColor="@color/black"
                 android:padding="4dp" />
 
             <ImageView
@@ -152,7 +151,8 @@
             <CheckBox
                 android:id="@+id/termsCheckbox"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/edit_text_color"/>
 
             <TextView
                 android:id="@+id/termsText"
@@ -167,8 +167,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Terms and Conditions"
-                android:textSize="14sp"
-                android:textColor="#FFA500" />
+                android:textColor="@color/main"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <!-- Signup Button -->
@@ -176,11 +176,11 @@
             android:id="@+id/signupButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FFA500"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_background"
             android:text="SIGNUP"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
+            android:textColor="@color/btnTextColor"
+            android:textStyle="bold" />
 
 
 
@@ -204,8 +204,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Login"
-                android:textSize="17sp"
-                android:textColor="#F9A825" />
+                android:textColor="@color/main"
+                android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

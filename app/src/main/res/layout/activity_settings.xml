@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
         <!-- Logged-in Email Display -->
@@ -16,28 +17,28 @@
             android:id="@+id/userEmailTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="Logged in as: user@example.com"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp" />
 
         <!-- Notifications Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rounded_border"
-            android:padding="16dp"
             android:layout_marginBottom="16dp"
-            android:gravity="center_vertical">
+            android:background="@drawable/rounded_border"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Notifications"
-                android:textSize="16sp"
-                android:textColor="@android:color/black" />
+                android:textColor="?android:textColorPrimary"
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchNotifications"
@@ -45,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:thumbTint="#FFA500"
+                android:thumbTint="@color/main"
                 android:trackTint="#FFE0B2" />
         </LinearLayout>
 
@@ -53,19 +54,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/rounded_border"
-            android:padding="16dp"
             android:layout_marginBottom="16dp"
-            android:gravity="center_vertical">
+            android:background="@drawable/rounded_border"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dark Mode"
-                android:textSize="16sp"
-                android:textColor="@android:color/black" />
+                android:textColor="?android:textColorPrimary"
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchDarkMode"
@@ -73,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:minWidth="48dp"
                 android:minHeight="48dp"
-                android:thumbTint="#FFA500"
+                android:thumbTint="@color/main"
                 android:trackTint="#FFE0B2" />
         </LinearLayout>
 
@@ -83,33 +84,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="#FFA500"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/main"
             android:padding="12dp"
             android:text="Change Profile Data"
-            android:background="@drawable/rounded_button"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/btnChangePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Password"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#FFA500"
             android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/main"
             android:padding="12dp"
-            android:background="@drawable/rounded_button" />
+            android:text="Change Password"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="140dp"
             android:layout_marginTop="12dp"
-            android:backgroundTint="#FFA500"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/main"
             android:text="Logout"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/rounded_button"/>
+            android:textColor="@color/black" />
 
     </LinearLayout>
 </ScrollView>

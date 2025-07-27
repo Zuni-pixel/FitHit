@@ -146,7 +146,6 @@
             android:layout_marginTop="20dp"
             android:backgroundTint="#FFA500"
             android:text="LOGIN"
-            android:textAllCaps="false"
             android:textColor="#FFFFFF" />
 
         <!-- Progress Bar (initially hidden) -->

@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:text="Badge Title"
         android:textSize="18sp"
-        android:textColor="#333"
+        android:textColor="?android:textColorPrimary"
         android:textStyle="bold" />
 </LinearLayout>

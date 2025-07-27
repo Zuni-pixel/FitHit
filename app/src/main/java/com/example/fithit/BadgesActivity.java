@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -141,14 +142,14 @@ public class BadgesActivity extends AppCompatActivity {
 
     // ✅ Hardcoded exercise section with click-to-complete logic
     private void setupExercises() {
-        String[] exercises = {"Neck Stretch", "Shoulder Rolls", "Back Twist"};
+        String[] exercises = {"Yoga", "Deadlifts", "Squads"};
 
         for (String exercise : exercises) {
             TextView exerciseView = new TextView(this);
             exerciseView.setText("◻️ " + exercise);
             exerciseView.setTextSize(16);
             exerciseView.setPadding(8, 12, 8, 12);
-            exerciseView.setTextColor(getResources().getColor(android.R.color.black));
+            exerciseView.setTextColor(ContextCompat.getColor(this, R.color.text_color));
             exerciseView.setBackgroundResource(R.drawable.badge_border);
 
             exerciseView.setOnClickListener(v -> {

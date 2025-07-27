@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -10,7 +11,8 @@
         android:id="@+id/avatarImage"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_avatar" />
+        android:src="@drawable/ic_avatar"
+        app:tint="?android:textColorPrimary"/>
 
     <!-- 📦 Message Bubble -->
     <LinearLayout
@@ -25,7 +27,7 @@
             android:id="@+id/senderText"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:textColor="#2196F3"
+            android:textColor="@color/secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -34,7 +36,7 @@
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000" />
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/timeText"

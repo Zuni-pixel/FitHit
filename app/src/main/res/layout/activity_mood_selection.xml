@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@android:color/white">
+    android:padding="16dp">
 
     <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
         android:text="How Are You Feeling Today?"
+        android:textColor="@color/main"
         android:textSize="22sp"
-        android:textColor="#FF6D00"
-    android:textStyle="bold"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginBottom="24dp"/>
+        android:textStyle="bold" />
 
     <!-- Mood Cards -->
     <androidx.cardview.widget.CardView
@@ -26,30 +24,30 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/CardColor2"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFF3E0">  <!-- Light Orange Background -->
+        app:cardElevation="4dp">  <!-- Light Orange Background -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="😊"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Happy"
-                android:textSize="18sp"
-                android:textColor="#212121"
-                android:layout_marginStart="16dp"/>
+                android:textColor="?android:textColorPrimary"
+                android:textSize="18sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -60,30 +58,30 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/CardColor2"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFF3E0">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="😴"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Tired"
-                android:textSize="18sp"
-                android:textColor="#212121"
-                android:layout_marginStart="16dp"/>
+                android:textColor="?android:textColorPrimary"
+                android:textSize="18sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -92,30 +90,30 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/CardColor2"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFF3E0">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="💪💪🏼"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Energetic"
-                android:textSize="18sp"
-                android:textColor="#212121"
-                android:layout_marginStart="16dp"/>
+                android:textColor="?android:textColorPrimary"
+                android:textSize="18sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -125,30 +123,30 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="12dp"
+        app:cardBackgroundColor="@color/CardColor2"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFF3E0">
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="😩"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Stressed"
-                android:textSize="18sp"
-                android:textColor="#212121"
-                android:layout_marginStart="16dp"/>
+                android:textColor="?android:textColorPrimary"
+                android:textSize="18sp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -157,9 +155,9 @@
         android:id="@+id/tvWorkoutSuggestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#FF6D00"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="24dp"
-        android:textStyle="italic"/>
+        android:textColor="@color/main"
+        android:textSize="16sp"
+        android:textStyle="italic" />
 </LinearLayout>

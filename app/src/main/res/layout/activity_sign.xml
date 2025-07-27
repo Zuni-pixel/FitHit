@@ -49,10 +49,10 @@
             android:id="@+id/highlightText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Hit"
-            android:textSize="36sp"
-            android:textColor="#FFA500"
             android:fontFamily="sans-serif-medium"
+            android:text=" Hit"
+            android:textColor="@color/main"
+            android:textSize="36sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -70,7 +70,7 @@
         android:shadowDy="10"
         android:shadowRadius="10"
         android:text="DON'T QUIT STAY FIT"
-        android:textColor="#FFA500"
+        android:textColor="@color/main"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -82,9 +82,9 @@
         android:layout_below="@id/subtitleText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:backgroundTint="#FFA500"
+        android:background="@drawable/button_background"
         android:text="SIGN UP"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/btnTextColor"
         android:textStyle="bold" />
 
 

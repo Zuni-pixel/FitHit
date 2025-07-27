@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/postureCorrection"
-                android:textColor="@color/white"
+                android:textColor="@color/btnTextColor"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="181dp"
@@ -63,9 +63,9 @@
             android:layout_marginStart="130dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="130dp"
-            android:backgroundTint="@color/main"
+            android:background="@drawable/button_background"
             android:text="Select Exercise"
-            android:textColor="@color/white" />
+            android:textColor="@color/btnTextColor" />
 
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

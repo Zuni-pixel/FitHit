@@ -6,18 +6,19 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 import kotlin.math.acos
-import kotlin.math.asin
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 import kotlin.math.pow
 import kotlin.math.abs
 
-data class FrameMatchResult( val frameIndex:  Int, val deviation: Float, val jointDeviation: Map<String, Float>, val matched: Map<String, Float>)
-data class ExerciseReport(val deviation: Float, val problemSegments :List<ProblemSegment>, val overallScore: Float)
-data class ProblemSegment(val startIndex: Int, val endIndex: Int, val deviation: Float, val problemJoint: Map<String, Float>)
+import android.graphics.*
+import kotlin.math.*
+
+data class FrameMatchResult( val frameIndex:  Int, val deviation: Float, val jointAngles: Map<String, Float>, val matched: Map<String, Float>)
+data class ExerciseReport(val deviation: Float, val overallScore: Float, val userAngles: Map<String, Float>, val referAngles: Map<String, Float>)
 enum class ExerciseState { WAITING_FOR_START, ACTIVE, PAUSED }
 data class ExerciseSession(val state: ExerciseState = ExerciseState.WAITING_FOR_START, val lastMatchedIndex: Int = -1, val consecutiveHighDeviation: Int = 0)
+
 const val START_THRESHOLD = 20.0f
 const val PAUSE_THRESHOLD = 25.0f
 const val PAUSE_CONSECUTIVE_FRAMES = 50
@@ -53,42 +54,13 @@ fun loadExerciseData(context: Context, targetExercise: String): List<Map<String,
 }
 
 private fun angleBetweenVectors(result: PoseLandmarkerResult, index1: Int, index2: Int, index3: Int): Float {
-    // Get landmarks with null checks and visibility threshold
     val a = result.worldLandmarks().firstOrNull()?.getOrNull(index1) ?: return 0f
     val b = result.worldLandmarks().firstOrNull()?.getOrNull(index2) ?: return 0f
     val c = result.worldLandmarks().firstOrNull()?.getOrNull(index3) ?: return 0f
 
     if (a.visibility().orElse(0f) < 0.5f || b.visibility().orElse(0f) < 0.5f || c.visibility().orElse(0f) < 0.5f) return 0f
-
-    // Create vectors based on joint type
-    val (v1, v2) = when {
-        // Shoulder angle: vectors from shoulder to hip and shoulder to elbow
-        index2 == 11 && index1 == 23 && index3 == 13 -> {
-            val hipToShoulder = floatArrayOf(a.x() - b.x(), a.y() - b.y(), a.z() - b.z())
-            val shoulderToElbow = floatArrayOf(c.x() - b.x(), c.y() - b.y(), c.z() - b.z())
-            Pair(hipToShoulder, shoulderToElbow)
-        }
-        // Elbow angle: vectors from elbow to shoulder and elbow to wrist
-        index2 == 13 && index1 == 11 && index3 == 15 -> {
-            val shoulderToElbow = floatArrayOf(a.x() - b.x(), a.y() - b.y(), a.z() - b.z())
-            val elbowToWrist = floatArrayOf(c.x() - b.x(), c.y() - b.y(), c.z() - b.z())
-            Pair(shoulderToElbow, elbowToWrist)
-        }
-        // Hip angle: vectors from hip to shoulder and hip to knee
-        index2 == 23 && index1 == 11 && index3 == 25 -> {
-            val shoulderToHip = floatArrayOf(a.x() - b.x(), a.y() - b.y(), a.z() - b.z())
-            val hipToKnee = floatArrayOf(c.x() - b.x(), c.y() - b.y(), c.z() - b.z())
-            Pair(shoulderToHip, hipToKnee)
-        }
-        // Knee angle: vectors from knee to hip and knee to ankle
-        index2 == 25 && index1 == 23 && index3 == 27 -> {
-            val hipToKnee = floatArrayOf(a.x() - b.x(), a.y() - b.y(), a.z() - b.z())
-            val kneeToAnkle = floatArrayOf(c.x() - b.x(), c.y() - b.y(), c.z() - b.z())
-            Pair(hipToKnee, kneeToAnkle)
-        }
-        else -> return Float.NaN
-    }
-
+    val v1 = floatArrayOf(a.x() - b.x(), a.y() - b.y(), a.z() - b.z())
+    val v2 = floatArrayOf(c.x() - b.x(), c.y() - b.y(), c.z() - b.z())
     return calculateAngle(v1, v2)
 }
 
@@ -109,43 +81,6 @@ private fun calculateAngle(v1: FloatArray, v2: FloatArray): Float {
         // Convert to degrees
         return Math.toDegrees(angle).toFloat()
 }
-
-//<-----Formula for calculating the joints----->
-//private fun angleBetweenVectors(result: PoseLandmarkerResult, index1: Int, index2: Int, index3: Int): Float {
-//    val a = result.worldLandmarks().firstOrNull()?.getOrNull(index1)
-//    val ax = a?.x()?: 0.0f
-//    val ay = a?.y()?: 0.0f
-//    val az = a?.z()?: 0.0f
-//
-//    val b = result.worldLandmarks().firstOrNull()?.getOrNull(index2)
-//    val bx = b?.x()?: 0.0f
-//    val by = b?.y()?: 0.0f
-//    val bz = b?.z()?: 0.0f
-//
-//    val c = result.worldLandmarks().firstOrNull()?.getOrNull(index3)
-//    val cx = c?.x()?: 0.0f
-//    val cy = c?.y()?: 0.0f
-//    val cz = c?.z()?: 0.0f
-//
-//    //Create vectors ba and bc
-//    val ba = floatArrayOf(ax-bx, ay-by, az-bz)
-//    val bc = floatArrayOf(cx-bx, cy-by, cz-bz)
-//    //Calculate dot product
-//    val dot = ba[0]*bc[0] + ba[1]*bc[1] + ba[2]*bc[2]
-//    //calculate magnitudes
-//    val magBA = sqrt(ba[0].pow(2) + ba[1].pow(2) + ba[2].pow(2))
-//    val magBC = sqrt(bc[0].pow(2) + bc[1].pow(2) + bc[2].pow(2))
-//
-//    //Handle zero magnitude cases
-//    if (magBA < 1e-6 || magBC < 1e-6) return 0f
-//
-//    //calculate cosin and clamp value
-//    var cosTheta = dot / (magBA * magBC)
-//    cosTheta = cosTheta.coerceIn(-1.0f, 1.0f)
-//
-//    //covert to degrees
-//    return Math.toDegrees(acos(cosTheta.toDouble())).toFloat()
-//}
 
 //<-----Function for calculating the joint angles from the user input frames----->
 fun calculateAngles(results: PoseLandmarkerResult): Map<String, Float> {
@@ -190,10 +125,10 @@ private fun handleWaitingState(
             state = ExerciseState.ACTIVE,
             lastMatchedIndex = 0
         )
-        val result = FrameMatchResult(0, startDeviation, emptyMap(), referenceFrames[0])
+        val result = FrameMatchResult(0, startDeviation, currentFrame, referenceFrames[0])
         Pair(newSession, result)
     } else {
-        Pair(session, FrameMatchResult(-1, Float.MAX_VALUE, emptyMap(), emptyMap()))
+        Pair(session, FrameMatchResult(-1, Float.MAX_VALUE, currentFrame, emptyMap()))
     }
 }
 
@@ -212,7 +147,7 @@ private fun handleActiveState(currentFrame: Map<String, Float>, referenceFrames:
             state = ExerciseState.PAUSED,
             consecutiveHighDeviation = newConsecutive
         )
-        Pair(newSession, FrameMatchResult(-1, Float.MAX_VALUE, emptyMap(), emptyMap()))
+        Pair(newSession, FrameMatchResult(-1, Float.MAX_VALUE, currentFrame, emptyMap()))
     }
     //Otherwise, calculate the deviation with the returned frame
     else {
@@ -220,7 +155,7 @@ private fun handleActiveState(currentFrame: Map<String, Float>, referenceFrames:
             lastMatchedIndex = bestIndex,
             consecutiveHighDeviation = newConsecutive
         )
-        val result = FrameMatchResult(bestIndex, bestDeviation, jointDeviation, referenceFrames[bestIndex])
+        val result = FrameMatchResult(bestIndex, bestDeviation, currentFrame, referenceFrames[bestIndex])
         Pair(newSession, result)
     }
 }
@@ -231,7 +166,7 @@ private fun handlePausedState(
     session: ExerciseSession
 ): Pair<ExerciseSession, FrameMatchResult> {
     if (session.lastMatchedIndex < 0) {
-        return Pair(session, FrameMatchResult(-1, Float.MAX_VALUE, emptyMap(), emptyMap()))
+        return Pair(session, FrameMatchResult(-1, Float.MAX_VALUE, currentFrame, emptyMap()))
     }
 
     val (deviation, _) = calculateFrameDeviation(
@@ -244,10 +179,10 @@ private fun handlePausedState(
             state = ExerciseState.ACTIVE,
             consecutiveHighDeviation = 0
         )
-        val result = FrameMatchResult(session.lastMatchedIndex, deviation, emptyMap(), referenceFrames[session.lastMatchedIndex])
+        val result = FrameMatchResult(session.lastMatchedIndex, deviation, currentFrame, referenceFrames[session.lastMatchedIndex])
         Pair(newSession, result)
     } else {
-        Pair(session, FrameMatchResult(-1, Float.MAX_VALUE, emptyMap(), emptyMap()))
+        Pair(session, FrameMatchResult(-1, Float.MAX_VALUE, currentFrame, emptyMap()))
     }
 }
 
@@ -316,65 +251,36 @@ fun initializeExerciseSession(): ExerciseSession {
     )
 }
 
-fun generateExerciseReport(performanceHistory: List<FrameMatchResult>, frameThreshold: Float = 35f, minSequenceLength: Int = 5): ExerciseReport {
-    if (performanceHistory.isEmpty()) return ExerciseReport(0f, emptyList(), 0f)
+fun generateExerciseReport(performanceHistory: List<FrameMatchResult>, referenceFrames: List<Map<String, Float>>): ExerciseReport {
+    if (performanceHistory.isEmpty()) return ExerciseReport(0f, 0f, emptyMap(), emptyMap())
 
     val scoringWindow = performanceHistory.dropLast(10)  // Last 1440 frames (~1sec at 24fps)
     //calculate overall statistics
     val totalDeviation = scoringWindow.sumOf {it.deviation.toDouble()}
     val avgDeviation = (totalDeviation / scoringWindow.size).toFloat()
 
-    //Identify problem segments
-    val segments = identifyProblemSegments(performanceHistory, frameThreshold, minSequenceLength)
+    //Find the problematic Deviation
+    val (datasetIndex, userHistoryIndex) = findProblematicDeviation(performanceHistory)
 
     //Calculate score (0-100)
     val score = 100 - (avgDeviation.coerceIn(0f,50f)*2)
-    return ExerciseReport(avgDeviation, segments, score.toFloat())
+    return ExerciseReport(avgDeviation, score.toFloat(), performanceHistory[userHistoryIndex].jointAngles, referenceFrames[datasetIndex])
 }
 
-private fun identifyProblemSegments(history: List<FrameMatchResult>, threshold: Float, minLength: Int): List<ProblemSegment>{
-    val segments = mutableListOf<ProblemSegment>()
-    var currentSegment = mutableListOf<FrameMatchResult>()
-
-    for (result in history){
-        if (result.deviation > threshold){
-            currentSegment.add(result)
-        } else if (currentSegment.size >= minLength) { //what is this part doing??
-            segments.add(createSegment(currentSegment, threshold))
-            currentSegment = mutableListOf()
-        } else {
-            currentSegment.clear()
+fun findProblematicDeviation(performanceHistory: List<FrameMatchResult>): Array<Int> {
+    var highDeviation = 0f
+    var index = -1
+    var historyIndex = -1
+    for (i in 0 until performanceHistory.size)
+    {
+        if (performanceHistory[i].deviation > highDeviation)
+        {
+            highDeviation = performanceHistory[i].deviation
+            index = performanceHistory[i].frameIndex
+            historyIndex = i
         }
     }
-
-    if (currentSegment.size >= minLength) {
-        segments.add(createSegment(currentSegment, threshold))
-    }
-
-    return segments
-}
-
-private fun createSegment(segmentFrames: List<FrameMatchResult>, threshold: Float): ProblemSegment {
-    val avgDeviation = segmentFrames.map { it.deviation}.average().toFloat()
-    val startIndex = segmentFrames.first().frameIndex
-    val endIndex = segmentFrames.last().frameIndex
-
-    //calculate average joint deviations in segment
-    val jointSums = mutableMapOf<String, Float>()
-    val jointCounts = mutableMapOf<String, Int>()
-
-    segmentFrames.forEach{ frame ->
-        frame.jointDeviation.forEach { (joint, deviation) ->
-            jointSums[joint] = (jointSums[joint] ?: 0f) + deviation
-            jointCounts[joint] = (jointCounts[joint] ?: 0) + 1
-        }
-    }
-
-    val problematicJoints = jointSums.mapValues { (joint, sum) ->
-        sum / (jointCounts[joint] ?: 1)
-    }.filterValues { it > threshold }
-
-    return ProblemSegment(startIndex, endIndex, avgDeviation, problematicJoints)
+    return arrayOf(index, historyIndex)
 }
 
 fun smoothenFrame(previousFrame: Map<String, Float>, currentFrame: Map<String, Float>): Map<String, Float>{
@@ -386,3 +292,87 @@ fun smoothenFrame(previousFrame: Map<String, Float>, currentFrame: Map<String, F
     }
     return smoothFrame
 }
+
+//fun generateAndSaveDiagram(
+//    context: Context,
+//    angles: Map<String, Float>,
+//    fileName: String
+//) {
+//    val imageWidth = 600
+//    val imageHeight = 800
+//    val centerX = imageWidth / 2f
+//    val centerY = imageHeight / 3f
+//    // Lengths
+//    val torsoLength = 200.0
+//    val upperArmLength = 150.0
+//    val forearmLength = 150.0
+//    val upperLegLength = 200.0
+//    val lowerLegLength = 200.0
+//
+//    val shoulderAngle = angles["Shoulder_Angle"]?.toDouble() ?: 0.0
+//    val elbowAngle = angles["Elbow_Angle"]?.toDouble() ?: 0.0
+//    val hipAngle = angles["Hip_Angle"]?.toDouble() ?: 0.0
+//    val kneeAngle = angles["Knee_Angle"]?.toDouble() ?: 0.0
+//
+//    // Calculate points
+//    val torsoTop = PointF(centerX, centerY)
+//    val torsoBottom = getEndpoint(torsoTop, torsoLength, -90.0)
+//
+//    val shoulder = torsoTop
+//    val upperArmEnd = getEndpoint(shoulder, upperArmLength, -90.0 + shoulderAngle)
+//    val elbow = upperArmEnd
+//    val forearmEnd = getEndpoint(elbow, forearmLength, -90.0 + shoulderAngle + (180.0 - elbowAngle))
+//
+//    val hip = torsoBottom
+//    val upperLegEnd = getEndpoint(hip, upperLegLength, -90 + (180.0 - hipAngle))
+//    val knee = upperLegEnd
+//    val lowerLegEnd = getEndpoint(knee, lowerLegLength, -90 + (180.0 - hipAngle + (180.0 - kneeAngle)))
+//
+//    // Bitmap and Canvas
+//    val bitmap = Bitmap.createBitmap(imageWidth, imageHeight, Bitmap.Config.ARGB_8888)
+//    val canvas = Canvas(bitmap)
+//    canvas.drawColor(Color.WHITE)
+//
+//    val paint = Paint().apply {
+//        color = Color.BLACK
+//        strokeWidth = 8f
+//        isAntiAlias = true
+//    }
+//
+//    // Draw torso
+//    drawLine(canvas, paint, torsoTop, torsoBottom)
+//
+//    // Draw arm
+//    paint.color = Color.BLUE
+//    drawLine(canvas, paint, shoulder, elbow)
+//    paint.color = Color.CYAN
+//    drawLine(canvas, paint, elbow, forearmEnd)
+//
+//    // Draw leg
+//    paint.color = Color.RED
+//    drawLine(canvas, paint, hip, knee)
+//    paint.color = Color.MAGENTA
+//    drawLine(canvas, paint, knee, lowerLegEnd)
+//
+//    // Draw joints
+//    paint.color = Color.BLACK
+//    val joints = listOf(shoulder, elbow, forearmEnd, hip, knee, lowerLegEnd)
+//    joints.forEach { canvas.drawCircle(it.x, it.y, 10f, paint) }
+//
+//    // Save image
+//    val file = context.getFileStreamPath(fileName)
+//    context.openFileOutput(fileName, Context.MODE_PRIVATE).use { out ->
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+//    }
+//}
+//
+//private fun getEndpoint(start: PointF, length: Double, angleDeg: Double): PointF {
+//    val angleRad = Math.toRadians(angleDeg)
+//    val xNew = start.x + (length * cos(angleRad)).toFloat()
+//    val yNew = start.y + (length * sin(angleRad)).toFloat()
+//    return PointF(xNew, yNew)
+//}
+//
+//private fun drawLine(canvas: Canvas, paint: Paint, p1: PointF, p2: PointF) {
+//    canvas.drawLine(p1.x, p1.y, p2.x, p2.y, paint)
+//}

@@ -121,23 +121,17 @@ class MainViewModel : ViewModel() {
 
     fun setAngleReadings(result: PoseLandmarkerResult){
         val angleResults: Map<String, Float> = calculateAngles(result)
-//        var isAccurate = true
-//        val prevVale = _anglesRead.value ?: "Angles are as follows:"
-//        var updatedString: String
-//        for ((joint, angle) in angleResults) {
-//            if (angle == 0f) {
-//                isAccurate = false
-//                updatedString = prevVale + "\n\n" + "Angle visiblity was low"
-//                _anglesRead.postValue(updatedString)
-//            } else {
-//                val newValue = jointAngles(angleResults)
-//                updatedString = prevVale + "\n\n" + newValue
-//                _anglesRead.postValue(updatedString)
-//            }
-//        }
-        //if (isAccurate){
-        processFrame(angleResults)
-        //}
+        var smoothJoints: Map<String, Float> = emptyMap()
+        if (frameHistory.size >= 2) {
+            val last = frameHistory.last()
+            smoothJoints = smoothenFrame(last, angleResults)
+            frameHistory.add(smoothJoints)
+        }
+        else{
+            frameHistory.add(angleResults)
+            smoothJoints = angleResults
+        }
+        processFrame(smoothJoints)
     }
 
     fun setExercise(context: Context, exerciseName: String) {
@@ -152,18 +146,8 @@ class MainViewModel : ViewModel() {
         _isSwitchingExercises.value = false
     }
 
-    private fun processFrame(jointAngles: Map<String, Float>){
+    private fun processFrame(smoothJoints: Map<String, Float>){
         if (referenceFrames.isEmpty()) return
-        var smoothJoints: Map<String, Float>
-        if (frameHistory.size >= 2) {
-            val last = frameHistory.last()
-            smoothJoints = smoothenFrame(last, jointAngles)
-            frameHistory.add(smoothJoints)
-        }
-        else{
-            frameHistory.add(jointAngles)
-            smoothJoints = jointAngles
-        }
 
         val (newSession, result) = processExerciseFrame(smoothJoints, referenceFrames, sessionState)
         sessionState = newSession
@@ -171,8 +155,8 @@ class MainViewModel : ViewModel() {
 
         if (result.frameIndex >= 0){
             performanceHistory.add(result)
-            if (smoothJoints["Shoulder_Angle"] != 0f){
-                val newValue = jointAngles(smoothJoints)
+            if (result.jointAngles["Shoulder_Angle"] != 0f){
+                val newValue = formatJointAngles(result.jointAngles)
                 val prevVale = _anglesRead.value ?: "Angles are as follows:"
                 anglesTaken = prevVale + "\n" + newValue
             }
@@ -183,19 +167,9 @@ class MainViewModel : ViewModel() {
             val oldString = _exerciseReport.value ?: ""
             _exerciseReport.postValue(buildSegmentString(result) + "\n" + anglesTaken + "\n\n" + oldString)
             lastMatchedIndex=result.frameIndex
-
-            val progress = (lastMatchedIndex*100) / referenceFrames.size
-            var feedback = "Frame ${result.frameIndex}/${referenceFrames.size} (${"%.1f".format(result.deviation)})\nProgress: $progress%"
-
-            result.jointDeviation.forEach{(joint, deviation) ->
-                if (deviation > 30f) {
-                    feedback += "\n$joint: ${"%.1f".format(deviation)} off"
-                }
-            }
-            _postureFeedback.postValue(feedback)
         }
         else{
-            val newValue = jointAngles(smoothJoints)
+            val newValue = formatJointAngles(result.jointAngles)
             val prevVale = _anglesRead.value ?: "Angles are as follows:"
             anglesTaken = prevVale + "\n" + newValue
             val oldString = _exerciseReport.value ?: ""
@@ -210,13 +184,11 @@ class MainViewModel : ViewModel() {
 
     fun completeExercise(): ExerciseReport {
         // Only generate report if not switching
-        if (!(_isSwitchingExercises.value ?: false)) {
-            val report = generateExerciseReport(performanceHistory, frameThreshold, minSequenceLength)
-            _exercisePercentage.postValue(report.overallScore)
-            return report
-        }
-//        resetExerciseTracking()
-        return generateExerciseReport(performanceHistory, frameThreshold, minSequenceLength)
+        val report = generateExerciseReport(performanceHistory, referenceFrames)
+//      generateAndSaveDiagram(context, report.userAngles, "posture_user.png")
+//      generateAndSaveDiagram(context, report.referAngles, "posture_correct.png")
+        _exercisePercentage.value = report.overallScore
+        return report
     }
 
     fun seeDetails(report: ExerciseReport){
@@ -273,7 +245,7 @@ class MainViewModel : ViewModel() {
     }
 
     private fun buildSegmentString(segment: FrameMatchResult): String{
-        val jointOrder = segment.jointDeviation.keys.sorted()
+        val jointOrder = segment.jointAngles.keys
         val decimalPlaces = 2
         val deg = "°"
         val fmt = "%.${decimalPlaces}f"
@@ -288,7 +260,6 @@ class MainViewModel : ViewModel() {
                 sb.appendLine("     ${joint}: ${fmt.format(value)}$deg")
             }
         }
-
         return sb.toString().trimEnd()
     }
 }

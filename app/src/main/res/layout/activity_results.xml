@@ -22,6 +22,7 @@
                 android:id="@+id/posture1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/posture_correction1" />
 
@@ -29,6 +30,7 @@
                 android:id="@+id/posture2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/posture_correction2"
                 tools:layout_weight="1" />
@@ -58,6 +60,18 @@
                 android:text="Correct Posture"
                 android:textColor="@color/secondary" />
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/detailButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_background"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            app:tint="@color/btnTextColor"
+            app:srcCompat="@drawable/back_arrow" />
 
         <TextView
             android:id="@+id/tvReport"

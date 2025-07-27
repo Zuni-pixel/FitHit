@@ -111,8 +111,10 @@ public class PostureActivity extends AppCompatActivity {
             TextView detailsAvailable = findViewById(R.id.seeDetails);
             drawPoseDiagramToStorage(this, reportResults.getUserAngles(), "posture_user.png");
             drawPoseDiagramToStorage(this, reportResults.getReferAngles(), "posture_correct.png");
-            if (reportResults.getOverallScore() == 0f){
+            if (reportResults.getOverallScore() == 0f) {
                 detailsAvailable.setText("No details available");
+            } else if (reportResults.getOverallScore() >= 70f){
+                detailsAvailable.setText("No Improvement needed");
             } else {
                 detailsAvailable.setText("See Detailed Feedback");
                 findViewById(R.id.seeDetails).setOnClickListener(w -> {

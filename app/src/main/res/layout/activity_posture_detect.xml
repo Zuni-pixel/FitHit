@@ -18,52 +18,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/statusBar"
+        <LinearLayout
+            android:id="@+id/top_bar"
             android:layout_width="match_parent"
-            android:layout_height="21dp"
+            android:layout_height="73dp"
             android:background="@color/main"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:foregroundGravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_below="@id/statusBar"
-            android:background="@color/main"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintHorizontal_bias="1.0">
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/back_arrow"
+                app:tint="@color/btnTextColor" />
 
             <TextView
                 android:id="@+id/activity_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="5"
                 android:text="@string/postureCorrection"
+                android:textAlignment="center"
                 android:textColor="@color/btnTextColor"
                 android:textSize="17sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="181dp"
                 tools:layout_editor_absoluteY="12dp" />
 
-        </androidx.appcompat.widget.Toolbar>
+            <ImageButton
+                android:id="@+id/refreshBtn"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/ic_refresh"
+                app:tint="@color/btnTextColor" />
 
+        </LinearLayout>
 
         <View
             android:id="@+id/poseResults2"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/top_bar"
             android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/posture_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/poseResults2"
+            android:paddingTop="5dp"
+            android:text="No selected exercise..."
+            android:textAlignment="center"
+            android:textColor="?android:textColorPrimary" />
 
         <LinearLayout
             android:id="@+id/postureBtns"
@@ -108,15 +131,6 @@
             app:navGraph="@navigation/nav_graph"
             tools:context=".MainActivity" />
 
-        <TextView
-            android:id="@+id/posture_exercise"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/poseResults2"
-            android:paddingTop="5dp"
-            android:text="No selected exercise..."
-            android:textAlignment="center"
-            android:textColor="?android:textColorPrimary" />
-
     </RelativeLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,7 @@
 package com.example.fithit;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -41,6 +43,13 @@ public class PostureActivity extends AppCompatActivity {
 
         assert selectedExercise != null;
         viewModel.setExercise(this, selectedExercise);
+
+        findViewById(R.id.backBtn).setOnClickListener(v -> {finish();});
+        findViewById(R.id.refreshBtn).setOnClickListener(v -> {
+            viewModel.triggerRestart();
+            recreate();
+            Toast.makeText(this, "Posture Correction refreshed!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void observeViewModel() {
@@ -62,12 +71,6 @@ public class PostureActivity extends AppCompatActivity {
 
             }
         });
-
-        viewModel.getExercisePercentage().observe(this, percentage-> {
-            TextView tvReport = findViewById(R.id.btnComplete);
-            String displayResult = "Score: " + percentage + "%";
-            tvReport.setText(displayResult);
-        });
     }
 
     private void restartExerciseExecution() {
@@ -78,12 +81,31 @@ public class PostureActivity extends AppCompatActivity {
     private void setupCompleteButton() {
         //button listener
         findViewById(R.id.btnComplete).setOnClickListener(v -> {
+            viewModel.getExercisePercentage().observe(this, percentage-> {
+                TextView tvReport = findViewById(R.id.btnComplete);
+                String displayResult = null;
+                if ( percentage == 0f ) {
+                    displayResult = "Did not detect (╥‸╥)";
+                } else if ( percentage < 50f) {
+                    displayResult = "Bad posture (๑﹏๑//)";
+                } else if ( percentage < 70f){
+                    displayResult = "Need to improve (˶ᵔ ᵕ ᵔ˶)";
+                } else if ( percentage >= 70 ) {
+                    displayResult = "PERFECT POSTURE ⸜(｡˃ ᵕ ˂ )⸝";
+                } else { displayResult = "error"; }
+                tvReport.setText(displayResult);
+            });
             ExerciseReport reportResults = viewModel.completeExercise();
             TextView detailsAvailable = findViewById(R.id.seeDetails);
-            detailsAvailable.setText("See Detailed Feedback");
-            findViewById(R.id.seeDetails).setOnClickListener(w -> {
-                viewModel.seeDetails(reportResults);
-            });
+            if (reportResults.getOverallScore() == 0f){
+                detailsAvailable.setText("No details available");
+            }
+            else{
+                detailsAvailable.setText("See Detailed Feedback");
+                findViewById(R.id.seeDetails).setOnClickListener(w -> {
+                    viewModel.seeDetails(reportResults);
+                });
+            }
         });
         viewModel.resetExerciseTracking();
     }

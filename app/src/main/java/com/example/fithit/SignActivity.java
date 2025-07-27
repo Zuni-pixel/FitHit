@@ -29,6 +29,7 @@ public class SignActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SignActivity.this, SignupActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -38,6 +39,7 @@ public class SignActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SignActivity.this,LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

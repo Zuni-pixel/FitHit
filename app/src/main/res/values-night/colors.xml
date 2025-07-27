@@ -7,4 +7,6 @@
     <color name="CardColor">#5A141414</color>
     <color name="CardColor2">#423732</color>
     <color name="edit_text_color">#454545</color>
+    <color name="bg_theme">#1A6298FE</color>
+    <color name="background_color">#303030</color>
 </resources>

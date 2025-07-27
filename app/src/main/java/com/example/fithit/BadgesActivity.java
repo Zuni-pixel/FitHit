@@ -142,7 +142,7 @@ public class BadgesActivity extends AppCompatActivity {
 
     // ✅ Hardcoded exercise section with click-to-complete logic
     private void setupExercises() {
-        String[] exercises = {"Neck Stretch", "Shoulder Rolls", "Back Twist"};
+        String[] exercises = {"Yoga", "Deadlifts", "Squads"};
 
         for (String exercise : exercises) {
             TextView exerciseView = new TextView(this);

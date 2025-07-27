@@ -1,4 +1,6 @@
 package com.example.fithit;
+
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -18,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private TextView signupLink, forgotPassword;
     private FirebaseAuth mAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setCancelable(false);
 
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
@@ -52,63 +58,83 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        progressDialog.setMessage("Logging in...");
+        progressDialog.show();
+
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
+                    progressDialog.dismiss();
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
                             if (user.isEmailVerified()) {
-                                String uid = user.getUid();
-
-                                FirebaseDatabase.getInstance().getReference("Users").child(uid)
-                                        .get().addOnSuccessListener(snapshot -> {
-                                            if (snapshot.exists()) {
-                                                String height = snapshot.child("height").getValue(String.class);
-                                                String age = snapshot.child("age").getValue(String.class);
-                                                String gender = snapshot.child("gender").getValue(String.class);
-                                                String diseases = snapshot.child("diseases").getValue(String.class);
-                                                String goal = snapshot.child("goal").getValue(String.class);
-
-                                                if (height != null && age != null && gender != null && diseases != null && goal != null) {
-                                                    // ✅ All profile data exists → go to Home
-                                                    Toast.makeText(LoginActivity.this, "Welcome back!", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                } else {
-                                                    // ❌ Incomplete profile data → go to profile input
-                                                    Intent intent = new Intent(LoginActivity.this, HeightDiseasesActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            } else {
-                                                Toast.makeText(LoginActivity.this, "User data not found.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }).addOnFailureListener(e -> {
-                                            Toast.makeText(LoginActivity.this, "Failed to read user data.", Toast.LENGTH_SHORT).show();
-                                        });
-
+                                checkUserProfile(user);
                             } else {
-                                user.sendEmailVerification().addOnCompleteListener(verifyTask -> {
-                                    if (verifyTask.isSuccessful()) {
-                                        Toast.makeText(LoginActivity.this,
-                                                "Email not verified. Verification email sent to " + user.getEmail(),
-                                                Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Failed to send verification email.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                mAuth.signOut(); // Logout unverified user
+                                handleUnverifiedUser(user);
                             }
                         } else {
                             Toast.makeText(LoginActivity.this, "Error: User does not exist.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                        Toast.makeText(LoginActivity.this, "Authentication failed: " + errorMessage, Toast.LENGTH_LONG).show();
+                        String errorMessage = task.getException() != null ?
+                                task.getException().getMessage() : "Unknown error";
+                        Toast.makeText(LoginActivity.this, "Authentication failed: " + errorMessage,
+                                Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void checkUserProfile(FirebaseUser user) {
+        progressDialog.setMessage("Checking profile...");
+        progressDialog.show();
+
+        String uid = user.getUid();
+        FirebaseDatabase.getInstance().getReference("Users").child(uid)
+                .get().addOnSuccessListener(snapshot -> {
+                    progressDialog.dismiss();
+                    if (snapshot.exists()) {
+                        String height = snapshot.child("height").getValue(String.class);
+                        String age = snapshot.child("age").getValue(String.class);
+                        String gender = snapshot.child("gender").getValue(String.class);
+                        String diseases = snapshot.child("diseases").getValue(String.class);
+                        String goal = snapshot.child("goal").getValue(String.class);
+
+                        if (height != null && age != null && gender != null &&
+                                diseases != null && goal != null) {
+                            // All profile data exists → go to Home
+                            Toast.makeText(LoginActivity.this, "Welcome back!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                        } else {
+                            // Incomplete profile data → go to profile input
+                            startActivity(new Intent(LoginActivity.this, HeightDiseasesActivity.class));
+                            finish();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "User data not found.", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(e -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Failed to read user data.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void handleUnverifiedUser(FirebaseUser user) {
+        progressDialog.setMessage("Sending verification email...");
+        progressDialog.show();
+
+        user.sendEmailVerification().addOnCompleteListener(verifyTask -> {
+            progressDialog.dismiss();
+            if (verifyTask.isSuccessful()) {
+                Toast.makeText(LoginActivity.this,
+                        "Email not verified. Verification email sent to " + user.getEmail(),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(LoginActivity.this, "Failed to send verification email.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            mAuth.signOut(); // Logout unverified user
+        });
     }
 
     private void verifyAndResetPassword() {
@@ -119,6 +145,9 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        progressDialog.setMessage("Checking email...");
+        progressDialog.show();
+
         mAuth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -127,24 +156,43 @@ public class LoginActivity extends AppCompatActivity {
                         if (isRegistered) {
                             sendPasswordResetEmail(email);
                         } else {
+                            progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Email is not registered", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
+                        progressDialog.dismiss();
+                        String errorMessage = task.getException() != null ?
+                                task.getException().getMessage() : "Unknown error";
                         Toast.makeText(LoginActivity.this, "Error: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
     private void sendPasswordResetEmail(String email) {
+        progressDialog.setMessage("Sending reset link...");
+
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(task -> {
+                    progressDialog.dismiss();
                     if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Reset link sent to your email", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this,
+                                "Password reset link sent to your email",
+                                Toast.LENGTH_LONG).show();
                     } else {
-                        String errorMessage = task.getException() != null ? task.getException().getMessage() : "Unknown error";
-                        Toast.makeText(LoginActivity.this, "Failed to send reset email: " + errorMessage, Toast.LENGTH_LONG).show();
+                        String errorMessage = task.getException() != null ?
+                                task.getException().getMessage() : "Unknown error";
+                        Toast.makeText(LoginActivity.this,
+                                "Failed to send reset email: " + errorMessage,
+                                Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

@@ -144,7 +144,7 @@ class MainViewModel : ViewModel() {
     }
 
     fun setAngleReadings(result: PoseLandmarkerResult){
-        var angleResults: Map<String, Float> = calculateAngles(result)
+        val angleResults: Map<String, Float> = calculateAngles(result)
 //        var isAccurate = true
 //        val prevVale = _anglesRead.value ?: "Angles are as follows:"
 //        var updatedString: String

@@ -1,5 +1,7 @@
 package com.example.fithit;
 
+import static android.content.Intent.getIntent;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;

@@ -14,11 +14,17 @@
     <color name="icActive">#FFFFFFFF</color>
     <color name="icFocused">#DDFFFFFF</color>
     <color name="icPressed">#AAFFFFFF</color>
-    <color name="main">#FEB062</color>
+    <color name="main">#FFAC4F</color>
     <color name="secondary">#6298FE</color>
     <color name="progress_low">#FF5722</color>
     <color name="progress_medium">#FFC107</color>
     <color name="progress_high">#2196F3</color>
     <color name="progress_complete">#4CAF50</color>
     <color name="NavBar">#E4E2E2</color>
+    <color name="messageBox">#CAC8C5</color>
+    <color name="text_color">#000000</color>
+    <color name="btnTextColor">#FFFFFF</color>
+    <color name="CardColor">#FFFFFF</color>
+    <color name="CardColor2">#FFF3E0</color>
+    <color name="edit_text_color">#2C2C2C</color>
 </resources>

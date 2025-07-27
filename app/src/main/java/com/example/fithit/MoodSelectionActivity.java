@@ -29,6 +29,16 @@ public class MoodSelectionActivity extends AppCompatActivity {
             animateCardClick(v);
             suggestWorkout("tired", tvWorkoutSuggestion);
         });
+        cardTired.setOnClickListener(v -> {
+            animateCardClick(v);
+            suggestWorkout("stressed", tvWorkoutSuggestion);
+        });
+        cardTired.setOnClickListener(v -> {
+            animateCardClick(v);
+            suggestWorkout("energetic", tvWorkoutSuggestion);
+        });
+
+
 
         // Add similar listeners for other cards...
     }

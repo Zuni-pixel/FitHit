@@ -1,6 +1,7 @@
 package com.example.fithit;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -19,7 +20,6 @@ public class NotificationWorker extends Worker {
     public Result doWork() {
         int hour = getInputData().getInt("hourOfDay", -1);
 
-        // Check workout status for 8 PM
         boolean isWorkoutCompleted = getApplicationContext()
                 .getSharedPreferences("workoutPrefs", Context.MODE_PRIVATE)
                 .getBoolean("workoutCompletedToday", false);
@@ -33,17 +33,15 @@ public class NotificationWorker extends Worker {
                 message = "Midday stretch — move a bit!";
                 break;
             case 16:
-                message = "Afternoon fitness reminder ";
+                message = "Afternoon fitness reminder.";
                 break;
             case 20:
-                if (!isWorkoutCompleted) {
-                    message = "Evening workout — you haven't completed your workout today. Let's do it now! ";
-                } else {
-                    message = "Evening workout — finish strong!";
-                }
+                message = isWorkoutCompleted
+                        ? "Evening workout — finish strong!"
+                        : "Evening reminder — you haven't completed your workout today!";
                 break;
             default:
-                message = "Time for your workout session! Let’s crush it ";
+                message = "Time for your workout session! Let’s crush it.";
                 break;
         }
 
@@ -54,14 +52,12 @@ public class NotificationWorker extends Worker {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Workout Reminder")
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat.from(getApplicationContext()).notify(
-                (int) System.currentTimeMillis(),
-                builder.build()
-        );
+        NotificationManagerCompat.from(getApplicationContext()).notify(hour, builder.build());
 
+        Log.d("NOTIFY", "Notification shown for " + hour + ":00 → " + message);
         return Result.success();
     }
 }

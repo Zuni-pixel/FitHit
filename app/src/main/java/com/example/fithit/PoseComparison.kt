@@ -39,14 +39,7 @@ fun loadExerciseData(context: Context, targetExercise: String): List<Map<String,
         if (label.equals(targetExercise, ignoreCase = true)) {
             val angleMap = mutableMapOf<String, Float>()
             tokens.subList(1, tokens.size -1).take(jointLabels.size).forEachIndexed{ index, token -> token.toFloatOrNull()?.let { angleMap[jointLabels[index]] = it}}
-//            if (result.size >= 2) {
-//                val last = result.last()
-//                val smoothAngle = smoothenFrame(last, angleMap)
-//                result.add(smoothAngle)
-//            }
-            //else {
             result.add(angleMap)
-            //}
         }
     }
     reader.close()

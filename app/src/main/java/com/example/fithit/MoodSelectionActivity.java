@@ -1,4 +1,5 @@
 package com.example.fithit;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import android.os.Bundle;
@@ -29,18 +30,16 @@ public class MoodSelectionActivity extends AppCompatActivity {
             animateCardClick(v);
             suggestWorkout("tired", tvWorkoutSuggestion);
         });
-        cardTired.setOnClickListener(v -> {
+
+        cardStressed.setOnClickListener(v -> {
             animateCardClick(v);
             suggestWorkout("stressed", tvWorkoutSuggestion);
         });
-        cardTired.setOnClickListener(v -> {
+
+        cardEnergetic.setOnClickListener(v -> {
             animateCardClick(v);
             suggestWorkout("energetic", tvWorkoutSuggestion);
         });
-
-
-
-        // Add similar listeners for other cards...
     }
 
     // Suggest workout based on mood
@@ -48,19 +47,19 @@ public class MoodSelectionActivity extends AppCompatActivity {
         String suggestion;
         switch (mood) {
             case "happy":
-                suggestion = "Recommended: 💃 Dance Workout\nBoost your joy with fun cardio!";
+                suggestion = "Recommended: 🏃‍♂️ Brisk Walking\nEnjoy fresh air and light cardio!";
                 break;
             case "tired":
-                suggestion = "Recommended: 🧘 Light Yoga\nGentle stretches to recharge.";
+                suggestion = "Recommended: 🧘 Gentle Yoga\nRestorative stretches to recharge.";
                 break;
             case "stressed":
-                suggestion = "Recommended: 🌿 Meditation + Walk\nCalm your mind.";
+                suggestion = "Recommended: 🌿 Nature Walk + Breathing\nCalm your mind outdoors.";
                 break;
             case "energetic":
-                suggestion = "Recommended: 🔥 HIIT Challenge\nBurn energy fast!";
+                suggestion = "Recommended: 💪 Bodyweight Circuit\nFull-body energizing workout!";
                 break;
             default:
-                suggestion = "🚶‍♂️ Go for a walk!";
+                suggestion = "🚶‍♂️ Go for a refreshing walk!";
         }
         tv.setText(suggestion);
     }
@@ -76,5 +75,11 @@ public class MoodSelectionActivity extends AppCompatActivity {
                         .scaleY(1f)
                         .setDuration(100))
                 .start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

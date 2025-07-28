@@ -117,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "You're already on Home 🏠", Toast.LENGTH_SHORT).show();
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
-                startActivity(new Intent(this, MoodSelectionActivity.class));
+                startActivity(new Intent(HomeActivity.this, MoodSelectionActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));

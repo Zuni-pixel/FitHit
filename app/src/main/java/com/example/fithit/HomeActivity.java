@@ -7,8 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +19,9 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,7 +29,6 @@ import java.util.Date;
 public class HomeActivity extends AppCompatActivity {
 
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1001;
-    private TextView greeting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
             Log.d("USER_UID", "User not logged in");
         }
 
-        // Notification permissions
+        // ✅ Request notification permission (for Android 13+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -60,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
-        // Notification channel
+        // ✅ Create notification channel (for Android 8+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     "fitness_channel",
@@ -72,15 +66,16 @@ public class HomeActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
         }
 
+        // ✅ Schedule notifications at 8 AM, 12 PM, 4 PM, 8 PM
         NotificationScheduler.scheduleNotifications(this);
 
-
+        // ✅ UI references
         TextView workoutDescription = findViewById(R.id.workoutDescription);
         ImageView workoutImage = findViewById(R.id.middleImage);
         TextView dateText = findViewById(R.id.dateText);
         ImageView bellIcon = findViewById(R.id.bellIcon);
 
-        // Date
+        // ✅ Set date
         Date currentDate = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
         dateText.setText(dateFormat.format(currentDate));
@@ -88,25 +83,24 @@ public class HomeActivity extends AppCompatActivity {
         workoutDescription.setText("Day 1 - Squat");
         workoutImage.setImageResource(R.drawable.sample_image);
 
-        // Button Clicks
+        // ✅ Button Clicks
         findViewById(R.id.btnHealth).setOnClickListener(v -> {
             try {
-                startActivity(new Intent(HomeActivity.this, HealthDashboardActivity.class));
+                startActivity(new Intent(this, HealthDashboardActivity.class));
             } catch (Exception e) {
-                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Couldn't open Health Dashboard", Toast.LENGTH_SHORT).show();
             }
         });
-        // Button Clicks
+
         findViewById(R.id.btnrecommendation).setOnClickListener(v -> {
             try {
-                startActivity(new Intent(HomeActivity.this, RecommendationActivity.class));
+                startActivity(new Intent(this, RecommendationActivity.class));
             } catch (Exception e) {
-                Toast.makeText(this, "Couldn't open health dashboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Couldn't open Recommendations", Toast.LENGTH_SHORT).show();
             }
         });
 
         findViewById(R.id.btnPosture).setOnClickListener(v -> {
-            // Verify this targets YOUR feature's activity (not SplashActivity)
             Intent intent = new Intent(this, selectExerciseActivity.class);
             startActivity(intent);
         });
@@ -115,8 +109,7 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(this, "Bell icon clicked!", Toast.LENGTH_SHORT).show()
         );
 
-
-        // ✅ Bottom Navigation (placed correctly INSIDE onCreate)
+        // ✅ Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -125,16 +118,15 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
                 startActivity(new Intent(HomeActivity.this, MoodSelectionActivity.class));
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 return true;
             } else if (itemId == R.id.navigation_settings) {
-                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_gamification) {
-                startActivity(new Intent(HomeActivity.this, BadgesActivity.class));
+                startActivity(new Intent(this, BadgesActivity.class));
                 return true;
             } else if (itemId == R.id.navigation_person) {
-                startActivity(new Intent(HomeActivity.this, CommunityActivity.class));
+                startActivity(new Intent(this, CommunityActivity.class));
                 return true;
             }
             return false;
@@ -164,4 +156,3 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 }
-

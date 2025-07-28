@@ -1,8 +1,10 @@
 package com.example.fithit;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
@@ -24,14 +26,14 @@ public class NotificationScheduler {
         target.set(Calendar.HOUR_OF_DAY, hourOfDay);
         target.set(Calendar.MINUTE, 0);
         target.set(Calendar.SECOND, 0);
+        target.set(Calendar.MILLISECOND, 0);
 
         if (target.before(now)) {
-            target.add(Calendar.DATE, 1); // Next day if time already passed
+            target.add(Calendar.DATE, 1); // Schedule for next day if time has passed
         }
 
         long delayMillis = target.getTimeInMillis() - now.getTimeInMillis();
 
-        //  Input data
         Data inputData = new Data.Builder()
                 .putInt("hourOfDay", hourOfDay)
                 .build();
@@ -41,6 +43,14 @@ public class NotificationScheduler {
                 .setInputData(inputData)
                 .build();
 
-        WorkManager.getInstance(context).enqueue(request);
+        String uniqueWorkName = "notification_" + hourOfDay;
+
+        WorkManager.getInstance(context).enqueueUniqueWork(
+                uniqueWorkName,
+                ExistingWorkPolicy.KEEP, // Do not reschedule if already exists
+                request
+        );
+
+        Log.d("NOTIFY", "Scheduled notification for " + hourOfDay + ":00 (in " + (delayMillis / 1000 / 60) + " min)");
     }
 }

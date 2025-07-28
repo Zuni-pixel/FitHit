@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".HomeActivity">
 
     <ScrollView
@@ -21,13 +22,13 @@
                 android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fit"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginTop="50dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="50dp"
+                android:fontFamily="sans-serif"
+                android:text="Fit"
                 android:textColor="?android:textColorPrimary"
-                android:fontFamily="sans-serif" />
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/userName"
@@ -57,26 +58,26 @@
                 android:id="@+id/greeting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hello"
-                android:textSize="24sp"
                 android:layout_below="@id/appName"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif"
+                android:text="Hello"
                 android:textColor="?android:textColorPrimary"
-                android:fontFamily="sans-serif" />
+                android:textSize="24sp" />
 
             <!-- Workout Plan -->
             <TextView
                 android:id="@+id/todaysWorkoutPlan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today's Workout Plan"
-                android:textSize="18sp"
                 android:layout_below="@id/greeting"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif"
+                android:text="Today's Workout Plan"
                 android:textColor="?android:textColorPrimary"
-                android:fontFamily="sans-serif" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/dateText"
@@ -96,8 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:layout_below="@id/todaysWorkoutPlan"
-                android:layout_marginTop="17dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="17dp"
                 android:layout_marginEnd="16dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/sample_image" />
@@ -107,26 +108,26 @@
                 android:id="@+id/workoutDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Day 1  -   Warm Up"
-                android:textSize="20sp"
                 android:layout_below="@id/middleImage"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif"
+                android:text="Day 1  -   Warm Up"
                 android:textColor="?android:textColorPrimary"
-                android:fontFamily="sans-serif" />
+                android:textSize="20sp" />
 
             <!-- Category Title -->
             <TextView
                 android:id="@+id/workoutCategories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Other Features"
-                android:textSize="18sp"
                 android:layout_below="@id/workoutDescription"
-                android:layout_marginTop="25dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="sans-serif"
+                android:text="Other Features"
                 android:textColor="?android:textColorPrimary"
-                android:fontFamily="sans-serif" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/seeAll"
@@ -196,11 +197,11 @@
                 android:layout_below="@id/bottomImage"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
-                android:text="Health Dashboard"
-                android:textColor="@color/btnTextColor"
                 android:background="@drawable/button_background"
-                android:padding="10dp"/>
+                android:fontFamily="sans-serif"
+                android:padding="10dp"
+                android:text="Health Dashboard"
+                android:textColor="@color/btnTextColor" />
         </RelativeLayout>
     </ScrollView>
 

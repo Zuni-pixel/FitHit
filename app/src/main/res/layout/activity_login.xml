@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
     android:fillViewport="true"
     tools:context=".LoginActivity">
 
@@ -20,8 +19,8 @@
             android:layout_width="93dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/logo" />
 
         <!-- App Title Container -->
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Fit "
-                android:textColor="#000000"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -47,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Hit"
-                android:textColor="#FFA500"
+                android:textColor="@color/main"
                 android:textSize="30sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -59,7 +58,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:text="Welcome!"
-            android:textColor="#000000"
+            android:textColor="?android:textColorPrimary"
             android:textSize="20sp" />
 
         <TextView
@@ -74,8 +73,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_edittext"
             android:orientation="horizontal"
             android:padding="10dp">
@@ -95,8 +94,10 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center"
                 android:contentDescription="Email Icon"
-                android:src="@drawable/ic_email" />
+                android:src="@drawable/ic_email"
+                android:tint="@color/black" />
         </LinearLayout>
 
         <!-- Password Input -->
@@ -123,8 +124,10 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center"
                 android:contentDescription="Password Icon"
-                android:src="@drawable/ic_password" />
+                android:src="@drawable/ic_password"
+                android:tint="@color/black" />
         </LinearLayout>
 
         <!-- Forgot Password -->
@@ -135,7 +138,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
             android:text="Forgot Password?"
-            android:textColor="#FFA500"
+            android:textColor="@color/main"
             android:textSize="14sp" />
 
         <!-- Login Button -->
@@ -144,9 +147,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#FFA500"
+            android:background="@drawable/button_background"
             android:text="LOGIN"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/btnTextColor" />
 
         <!-- Progress Bar (initially hidden) -->
         <ProgressBar
@@ -164,7 +167,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:text="Don't have an account? Signup"
-            android:textColor="#FFA500"
+            android:textColor="@color/main"
             android:textSize="14sp" />
     </LinearLayout>
 </ScrollView>

@@ -58,7 +58,7 @@
         <item>Squats</item>
         <item>Push Ups</item>
         <item>Pull Ups</item>
-        <item>Russian Twists</item>
     </string-array>
+    <string name="advice">Dear User,\nIt is requested that you follow the guidelines for accurate readings.\n• Stand completely straight for Jumping Jacks\n• Start with hands folded upwards for Squats\n• Use side view for Push Ups\n• Start hanging straight in Pull Ups\n• Be sure to be completely in view for accurate readings\n• Do not stand idly in the frame</string>
 
 </resources>

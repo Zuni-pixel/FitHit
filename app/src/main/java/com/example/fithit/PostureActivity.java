@@ -101,25 +101,34 @@ public class PostureActivity extends AppCompatActivity {
                     displayResult = "Bad posture (๑﹏๑//)";
                 } else if (percentage < 70f) {
                     displayResult = "Need to improve (˶ᵔ ᵕ ᵔ˶)";
-                } else {
+                } else if (percentage >= 70f) {
                     displayResult = "PERFECT POSTURE ⸜(｡˃ ᵕ ˂ )⸝";
+                }
+                else {
+                    displayResult = "Not exercising (x-x)";
                 }
 
                 tvReport.setText(displayResult);
             });
             ExerciseReport reportResults = viewModel.completeExercise();
             TextView detailsAvailable = findViewById(R.id.seeDetails);
-            drawPoseDiagramToStorage(this, reportResults.getUserAngles(), "posture_user.png");
-            drawPoseDiagramToStorage(this, reportResults.getReferAngles(), "posture_correct.png");
-            if (reportResults.getOverallScore() == 0f) {
-                detailsAvailable.setText("No details available");
-            } else if (reportResults.getOverallScore() >= 70f){
+//            if (reportResults.getOverallScore() == 0f) {
+//                detailsAvailable.setText("No details available");
+//            } else
+            if (reportResults.getOverallScore() >= 70f){
                 detailsAvailable.setText("No Improvement needed");
-            } else {
+            } else if (reportResults.getOverallScore() < 70f && reportResults.getOverallScore() >= 0f){
                 detailsAvailable.setText("See Detailed Feedback");
+                if (reportResults.getOverallScore()!= 0f){
+                    drawPoseDiagramToStorage(this, reportResults.getUserAngles(), "posture_user.png");
+                    drawPoseDiagramToStorage(this, reportResults.getReferAngles(), "posture_correct.png");
+                }
                 findViewById(R.id.seeDetails).setOnClickListener(w -> {
                     viewModel.seeDetails(reportResults);
                 });
+            }
+            else {
+                detailsAvailable.setText("Do it seriously");
             }
         });
         viewModel.resetExerciseTracking();

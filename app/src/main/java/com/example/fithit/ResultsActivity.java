@@ -1,5 +1,8 @@
 package com.example.fithit;
 
+import static com.example.fithit.PoseComparisonKt.changeLongPressValue;
+import static com.example.fithit.PoseComparisonKt.notLongPress;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
@@ -18,23 +21,27 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
         TextView tvReport = findViewById(R.id.tvReport);
 
-        ImageView userImage = findViewById(R.id.posture1);
-        ImageView datasetImage = findViewById(R.id.posture2);
+        if (notLongPress()){
+            ImageView userImage = findViewById(R.id.posture1);
+            ImageView datasetImage = findViewById(R.id.posture2);
 
-        File userFile = new File(getFilesDir(), "posture_user.png");
-        File dataFile = new File(getFilesDir(), "posture_correct.png");
-        if (userFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(userFile.getAbsolutePath());
-            if (bitmap != null) {
-                userImage.setImageBitmap(bitmap);
+            File userFile = new File(getFilesDir(), "posture_user.png");
+            File dataFile = new File(getFilesDir(), "posture_correct.png");
+            if (userFile.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(userFile.getAbsolutePath());
+                if (bitmap != null) {
+                    userImage.setImageBitmap(bitmap);
+                }
+            }
+            if (dataFile.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(dataFile.getAbsolutePath());
+                if (bitmap != null) {
+                    datasetImage.setImageBitmap(bitmap);
+                }
             }
         }
-        if (dataFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(dataFile.getAbsolutePath());
-            if (bitmap != null) {
-                datasetImage.setImageBitmap(bitmap);
-            }
-        }
+
+        changeLongPressValue(false);
 
         findViewById(R.id.detailButton).setOnClickListener(v ->{
             finish();

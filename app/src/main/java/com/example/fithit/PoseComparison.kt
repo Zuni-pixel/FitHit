@@ -14,13 +14,13 @@ import kotlin.math.abs
 data class FrameMatchResult( val frameIndex:  Int, val deviation: Float, val jointAngles: Map<String, Float>, val matched: Map<String, Float>)
 data class ExerciseReport(val deviation: Float, val overallScore: Float, val userAngles: Map<String, Float>, val referAngles: Map<String, Float>)
 enum class ExerciseState { WAITING_FOR_START, ACTIVE }
-data class ExerciseSession(val state: ExerciseState = ExerciseState.WAITING_FOR_START, val lastMatchedIndex: Int = -1, val consecutiveHighDeviation: Int = 0)
+data class ExerciseSession(val state: ExerciseState = ExerciseState.WAITING_FOR_START, val lastMatchedIndex: Int = -1, val consecutiveHighDeviation: Int = 0, val restartTriggered: Int = -1)
 
-const val START_THRESHOLD = 20.0f
-const val PAUSE_THRESHOLD = 25.0f
-const val PAUSE_CONSECUTIVE_FRAMES = 3
-var restartTriggered = -1
+const val START_THRESHOLD = 30.0f
+const val PAUSE_THRESHOLD = 20.0f
+const val PAUSE_CONSECUTIVE_FRAMES = 5
 var datasetIndex = -1
+var longPressed = false
 
 //<-----Function for loading the Exercise Data according to the exercise selected----->
 fun loadExerciseData(context: Context, targetExercise: String): List<Map<String, Float>> {
@@ -109,18 +109,22 @@ private fun handleWaitingState(
     session: ExerciseSession
 ): Pair<ExerciseSession, FrameMatchResult> {
     val (startDeviation, _) = calculateFrameDeviation(currentFrame, referenceFrames.first())
-    return if (restartTriggered == 2) {
+    return if (session.restartTriggered == 2) {
+        val oldCount = session.consecutiveHighDeviation
         val newSession = session.copy(
             state = ExerciseState.WAITING_FOR_START,
-            lastMatchedIndex = -1
+            lastMatchedIndex = -1,
+            consecutiveHighDeviation = oldCount + 1
         )
         val result = FrameMatchResult(-1, Float.MAX_VALUE, emptyMap(), emptyMap())
         Pair(newSession, result)
     } else if (startDeviation < START_THRESHOLD) {
-        restartTriggered += 1
+        val oldCount = session.restartTriggered
         val newSession = session.copy(
             state = ExerciseState.ACTIVE,
-            lastMatchedIndex = 0
+            lastMatchedIndex = 0,
+            restartTriggered = oldCount + 1,
+            consecutiveHighDeviation = 0
         )
         val result = FrameMatchResult(0, startDeviation, currentFrame, referenceFrames[0])
         Pair(newSession, result)
@@ -144,8 +148,7 @@ private fun handleActiveState(currentFrame: Map<String, Float>, referenceFrames:
     //Go to start if deviation is constantly high
     return if (newConsecutive >= PAUSE_CONSECUTIVE_FRAMES) {
         val newSession = session.copy(
-            state = ExerciseState.WAITING_FOR_START,
-            consecutiveHighDeviation = 0
+            state = ExerciseState.WAITING_FOR_START
         )
         Pair(newSession, FrameMatchResult(-1, Float.MAX_VALUE, currentFrame, emptyMap()))
     }
@@ -225,7 +228,7 @@ fun initializeExerciseSession(): ExerciseSession {
     )
 }
 
-fun generateExerciseReport(performanceHistory: List<FrameMatchResult>, referenceFrames: List<Map<String, Float>>): ExerciseReport {
+fun generateExerciseReport(performanceHistory: List<FrameMatchResult>, referenceFrames: List<Map<String, Float>>, session: ExerciseSession): ExerciseReport {
     if (performanceHistory.isEmpty()) return ExerciseReport(0f, 0f, emptyMap(), emptyMap())
 
     val scoringWindow = performanceHistory.dropLast(10)  // Last 1440 frames (~1sec at 24fps)
@@ -233,7 +236,7 @@ fun generateExerciseReport(performanceHistory: List<FrameMatchResult>, reference
     val filteredHistory = scoringWindow.filterNot{ it.frameIndex == 0 || it.frameIndex==-1 }
     val totalDeviation = filteredHistory.sumOf {it.deviation.toDouble()}
     var avgDeviation = (totalDeviation / scoringWindow.size).toFloat()
-    if (restartTriggered == 3){
+    if (session.restartTriggered == 2){
         avgDeviation = Float.MAX_VALUE
     }
 
@@ -269,4 +272,17 @@ fun smoothenFrame(previousFrame: Map<String, Float>, currentFrame: Map<String, F
         smoothFrame[joint] = alpha * angle + (1 - alpha) * pastJoint
     }
     return smoothFrame
+}
+
+fun notLongPress(): Boolean{
+    if (longPressed){
+        return false
+    }
+    else{
+        return true
+    }
+}
+
+fun changeLongPressValue(new: Boolean){
+    longPressed=new
 }

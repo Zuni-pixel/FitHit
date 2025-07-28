@@ -169,25 +169,27 @@ class MainViewModel : ViewModel() {
             lastMatchedIndex=result.frameIndex
         }
         else{
-            val newValue = formatJointAngles(result.jointAngles)
+            val newValue = formatJointAngles(smoothJoints)
             val prevVale = _anglesRead.value ?: "Angles are as follows:"
             anglesTaken = prevVale + "\n" + newValue
             val oldString = _exerciseReport.value ?: ""
             if (sessionState.state == ExerciseState.WAITING_FOR_START) {
-                _exerciseReport.postValue("Waiting to start\n" + anglesTaken + "\n\n" + oldString)
-            }
-            else{
-                _exerciseReport.postValue("In Paused state\n" + anglesTaken + "\n\n" + oldString)
+                _exerciseReport.postValue("Waiting to start: " + sessionState.restartTriggered + "\n" +  anglesTaken + "\n\n" + oldString)
             }
         }
     }
 
     fun completeExercise(): ExerciseReport {
         // Only generate report if not switching
-        val report = generateExerciseReport(performanceHistory, referenceFrames)
+        val report = generateExerciseReport(performanceHistory, referenceFrames, sessionState)
 //      generateAndSaveDiagram(context, report.userAngles, "posture_user.png")
 //      generateAndSaveDiagram(context, report.referAngles, "posture_correct.png")
-        _exercisePercentage.value = report.overallScore
+        if (sessionState.restartTriggered == 2 || sessionState.consecutiveHighDeviation > 20){
+            _exercisePercentage.value = 0f
+        }
+        else {
+            _exercisePercentage.value = report.overallScore
+        }
         return report
     }
 

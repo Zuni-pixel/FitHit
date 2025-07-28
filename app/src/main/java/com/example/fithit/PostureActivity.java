@@ -2,8 +2,11 @@ package com.example.fithit;
 
 import static android.content.Intent.getIntent;
 
+import static com.example.fithit.PoseComparisonKt.changeLongPressValue;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,17 +115,16 @@ public class PostureActivity extends AppCompatActivity {
             });
             ExerciseReport reportResults = viewModel.completeExercise();
             TextView detailsAvailable = findViewById(R.id.seeDetails);
-//            if (reportResults.getOverallScore() == 0f) {
-//                detailsAvailable.setText("No details available");
-//            } else
+            if (reportResults.getOverallScore() == 0f) {
+                detailsAvailable.setText("No details available");
+            } else
             if (reportResults.getOverallScore() >= 70f){
                 detailsAvailable.setText("No Improvement needed");
-            } else if (reportResults.getOverallScore() < 70f && reportResults.getOverallScore() >= 0f){
+            } else
+            if (reportResults.getOverallScore() >= 0f){
                 detailsAvailable.setText("See Detailed Feedback");
-                if (reportResults.getOverallScore()!= 0f){
-                    drawPoseDiagramToStorage(this, reportResults.getUserAngles(), "posture_user.png");
-                    drawPoseDiagramToStorage(this, reportResults.getReferAngles(), "posture_correct.png");
-                }
+                drawPoseDiagramToStorage(this, reportResults.getUserAngles(), "posture_user.png");
+                drawPoseDiagramToStorage(this, reportResults.getReferAngles(), "posture_correct.png");
                 findViewById(R.id.seeDetails).setOnClickListener(w -> {
                     viewModel.seeDetails(reportResults);
                 });
@@ -130,8 +132,17 @@ public class PostureActivity extends AppCompatActivity {
             else {
                 detailsAvailable.setText("Do it seriously");
             }
+
+            findViewById(R.id.seeDetails).setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View v){
+                    changeLongPressValue(true);
+                    viewModel.seeDetails(reportResults);
+                    return true;
+                }
+            });
+            viewModel.resetExerciseTracking();
         });
-        viewModel.resetExerciseTracking();
     }
 
     private void setupNavigator(){

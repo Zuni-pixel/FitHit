@@ -125,6 +125,7 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             } else if (itemId == R.id.navigation_workouts) {
                 startActivity(new Intent(HomeActivity.this, MoodSelectionActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 return true;
             } else if (itemId == R.id.navigation_settings) {
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
